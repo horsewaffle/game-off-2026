@@ -1,0 +1,39 @@
+[gd_scene format=3 uid="uid://dnwiely4vbrei"]
+
+[ext_resource type="Script" uid="uid://v3cyjvfpifjg" path="res://scripts/TestCameraStep.gd" id="1_10dcs"]
+[ext_resource type="Material" uid="uid://bqo82xrcija68" path="res://assets/test_tex.tres" id="2_rcshh"]
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_hrkyq"]
+
+[sub_resource type="CapsuleShape3D" id="CapsuleShape3D_hrkyq"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hrkyq"]
+
+[node name="GameSpace" type="Node3D" unique_id=1892350279]
+
+[node name="Floor" type="MeshInstance3D" parent="." unique_id=489857694]
+transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -0.01, 0)
+material_override = ExtResource("2_rcshh")
+mesh = SubResource("PlaneMesh_hrkyq")
+surface_material_override/0 = ExtResource("2_rcshh")
+
+[node name="PlayerCharacter" type="CharacterBody3D" parent="." unique_id=498286153]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
+script = ExtResource("1_10dcs")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacter" unique_id=1796015526]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.5, 0)
+shape = SubResource("CapsuleShape3D_hrkyq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="PlayerCharacter/CollisionShape3D" unique_id=498528696]
+mesh = SubResource("CapsuleMesh_hrkyq")
+
+[node name="MainCamera" type="Camera3D" parent="PlayerCharacter" unique_id=300597284]
+transform = Transform3D(1, 0, 0, 0, 0.64278764, 0.76604444, 0, -0.76604444, 0.64278764, 0, 2, 2)
+
+[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=821788413]
+transform = Transform3D(1, 0, 0, 0, 0.9018956, 0.4319542, 0, -0.4319542, 0.9018956, 0, 2.5431838, 4.861645)
+light_color = Color(1, 0.7118222, 0.49673498, 1)
+light_energy = 11.729
+shadow_enabled = true
+spot_range = 10.801
