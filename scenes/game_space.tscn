@@ -1,8 +1,8 @@
 [gd_scene format=3 uid="uid://dnwiely4vbrei"]
 
 [ext_resource type="Script" uid="uid://bbtr0lmw8glpr" path="res://scenes/game_space.gd" id="1_7fcka"]
-[ext_resource type="Script" uid="uid://v3cyjvfpifjg" path="res://scripts/TestCameraStep.gd" id="1_10dcs"]
 [ext_resource type="Material" uid="uid://bqo82xrcija68" path="res://assets/test_tex.tres" id="2_rcshh"]
+[ext_resource type="Script" uid="uid://cbmes3pgcbs1c" path="res://scripts/player/player_controller.gd" id="3_7fcka"]
 [ext_resource type="Script" uid="uid://drixa8fwn4rp3" path="res://scenes/board.gd" id="3_rcshh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hrkyq"]
@@ -11,7 +11,7 @@
 
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hrkyq"]
 
-[node name="GameSpace" type="Node3D" unique_id=1892350279]
+[node name="GameSpace" type="Node3D" unique_id=1892350279 groups=["turn_listener"]]
 script = ExtResource("1_7fcka")
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=489857694]
@@ -22,7 +22,7 @@ surface_material_override/0 = ExtResource("2_rcshh")
 
 [node name="PlayerCharacter" type="CharacterBody3D" parent="." unique_id=498286153]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, 0)
-script = ExtResource("1_10dcs")
+script = ExtResource("3_7fcka")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="PlayerCharacter" unique_id=1796015526]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, -0.5, 0)
