@@ -13,7 +13,7 @@ func _input(_event) -> void:
 		board_response = board.process_move(self, Vector2i(-1, 0))
 	if Input.is_action_just_pressed("MOVE_RIGHT"):
 		board_response = board.process_move(self, Vector2i(1, 0))
-	
+		
 	if board_response == null:
 		return
 	

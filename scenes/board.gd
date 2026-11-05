@@ -18,12 +18,12 @@ func _ready() -> void:
 func is_in_bounds(grid_position: Vector2i) -> bool:
 	var min_x: int = -floori(grid_size.x / 2.0)
 	var min_y: int = -floori(grid_size.y / 2.0)
-
+	
 	return (
 		grid_position.x >= min_x
-		and grid_position.x < min_x + grid_size.x
+		and grid_position.x <= min_x + grid_size.x
 		and grid_position.y >= min_y
-		and grid_position.y < min_y + grid_size.y
+		and grid_position.y <= min_y + grid_size.y
 	)
 
 
