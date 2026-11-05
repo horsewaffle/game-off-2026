@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://dnwiely4vbrei"]
 
+[ext_resource type="Script" uid="uid://bbtr0lmw8glpr" path="res://scenes/game_space.gd" id="1_7fcka"]
 [ext_resource type="Script" uid="uid://v3cyjvfpifjg" path="res://scripts/TestCameraStep.gd" id="1_10dcs"]
 [ext_resource type="Material" uid="uid://bqo82xrcija68" path="res://assets/test_tex.tres" id="2_rcshh"]
+[ext_resource type="Script" uid="uid://drixa8fwn4rp3" path="res://scenes/board.gd" id="3_rcshh"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hrkyq"]
 
@@ -10,6 +12,7 @@
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_hrkyq"]
 
 [node name="GameSpace" type="Node3D" unique_id=1892350279]
+script = ExtResource("1_7fcka")
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=489857694]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -0.01, 0)
@@ -37,3 +40,6 @@ light_color = Color(1, 0.7118222, 0.49673498, 1)
 light_energy = 11.729
 shadow_enabled = true
 spot_range = 10.801
+
+[node name="Board" type="Node3D" parent="." unique_id=1067589739]
+script = ExtResource("3_rcshh")
