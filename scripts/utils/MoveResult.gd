@@ -6,7 +6,7 @@ var result: MoveEnum
 var pos: Variant = null
 
 
-func _init(resEnum: MoveEnum, pos: Variant = null) -> void:
+func _init(resEnum: MoveEnum, resPos: Variant = null) -> void:
 	self.result = resEnum
-	self.pos = pos
+	self.pos = resPos
 	assert(pos == null or pos is Vector2i)

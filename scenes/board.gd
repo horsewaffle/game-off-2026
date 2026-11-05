@@ -1,17 +1,17 @@
 extends Node3D
 
 @export var cell_size: float = 1.0
-@onready var floor: MeshInstance3D = $"../Floor"
+@onready var floor_mesh: MeshInstance3D = $"../Floor"
 
 var grid_size: Vector2i
 var entity_positions: Dictionary = {}
 
 func _ready() -> void:
-	var floor_size: Vector2 = floor.mesh.size
+	var floor_size: Vector2 = floor_mesh.mesh.size
 
 	grid_size = Vector2i(
-		floori(floor_size.x * floor.scale.x / cell_size),
-		floori(floor_size.y * floor.scale.z / cell_size)
+		floori(floor_size.x * floor_mesh.scale.x / cell_size),
+		floori(floor_size.y * floor_mesh.scale.z / cell_size)
 	)
 
 
