@@ -4,7 +4,7 @@
 [ext_resource type="Script" uid="uid://v3cyjvfpifjg" path="res://scripts/TestCameraStep.gd" id="1_10dcs"]
 [ext_resource type="Material" uid="uid://bqo82xrcija68" path="res://assets/test_tex.tres" id="2_rcshh"]
 [ext_resource type="Script" uid="uid://drixa8fwn4rp3" path="res://scenes/board.gd" id="3_rcshh"]
-[ext_resource type="Script" uid="uid://kgnjrstpy2hr" path="res://scenes/enemy.gd" id="5_i7v7t"]
+[ext_resource type="Script" uid="uid://kgnjrstpy2hr" path="res://scripts/enemies/enemy.gd" id="5_i7v7t"]
 
 [sub_resource type="PlaneMesh" id="PlaneMesh_hrkyq"]
 

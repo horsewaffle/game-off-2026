@@ -1,4 +1,0 @@
-class_name Enemy
-extends CharacterBody3D
-
-@onready var board = $"../Board"

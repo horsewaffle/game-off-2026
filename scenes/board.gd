@@ -55,8 +55,15 @@ func process_move(entity: Node3D, direction: Vector2i) -> MoveResult:
 	var current_position: Vector2i = entity_positions[entity]
 	var target_position: Vector2i = current_position + direction
 	
-	if not is_in_bounds(target_position) or target_position in entity_positions.values():
+	if not is_in_bounds(target_position):
 		return MoveResult.new(MoveResult.MoveEnum.FAIL, current_position)
+	
+	if target_position in entity_positions.values():
+		var occupant = entity_positions.find_key(target_position)
 		
+		if occupant is Enemy:
+			return MoveResult.new(MoveResult.MoveEnum.INTERACT, current_position, occupant)
+		
+	
 	entity_positions[entity] = target_position
 	return MoveResult.new(MoveResult.MoveEnum.SUCCESS, target_position)
