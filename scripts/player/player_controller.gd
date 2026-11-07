@@ -1,10 +1,13 @@
 extends CharacterBody3D
 
+class_name PlayerController
+
 @onready var board = $"../Board"
 
 # Signal for notifying the Board that the player has taken their turn
 signal player_turn_taken
 
+# Can the player provide blocking input?
 var can_take_action = false
 
 # Called when the node enters the scene tree for the first time.
@@ -54,7 +57,26 @@ func _input(_event) -> void:
 			
 		
 		can_take_action = false
+
+		# Minimum turn time so players don't accidentally spam
+		await get_tree().create_timer(0.3).timeout
+		
 		player_turn_taken.emit()
 
 func _on_player_turn_readied():
+	if (is_adjacent_to_fightable()):
+		print("Adjacent to fightable, trigger combat UI")
 	can_take_action = true
+
+func is_adjacent_to_fightable() -> bool:
+	# Intentional loss of precision to snap to grid
+	@warning_ignore("narrowing_conversion")
+	var grid_pos = Vector2i(position.x, position.z)
+
+	for offset in [Vector2i(1,0), Vector2i(0,1), Vector2i(-1,0), Vector2i(0,-1)]:
+		var check_pos = grid_pos + offset
+		var queryResult = board.query_board(check_pos)
+		if (queryResult != null and queryResult is Entity and queryResult.fightable != null):
+			return true
+			
+	return false
