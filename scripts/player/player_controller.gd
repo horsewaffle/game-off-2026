@@ -40,16 +40,18 @@ func _input(_event) -> void:
 		if board_response == null:
 			return
 		
-		if board_response.result != MoveResult.MoveEnum.SUCCESS:
-			return
+		if board_response.result == MoveResult.MoveEnum.SUCCESS:
+			var target_position: Vector2i = board_response.pos
 			
-		var target_position: Vector2i = board_response.pos
-		
-		position = Vector3(
-			target_position.x * board.cell_size,
-			position.y,
-			target_position.y * board.cell_size
-		)
+			position = Vector3(
+				target_position.x * board.cell_size,
+				position.y,
+				target_position.y * board.cell_size
+			)
+	
+		elif board_response.result == MoveResult.MoveEnum.INTERACT:
+			print("am finna scrap ", board_response.occupant)
+			
 		
 		can_take_action = false
 		player_turn_taken.emit()
