@@ -2,18 +2,26 @@ extends Node3D
 
 @export var cell_size: float = 1.0
 @onready var floor_mesh: MeshInstance3D = $"../Floor"
+@onready var player: CharacterBody3D = $"../PlayerCharacter"
+
+# Signal for notifying the player controller their turn is ready
+signal player_turn_readied
 
 var grid_size: Vector2i
 var entity_positions: Dictionary = {}
 
 func _ready() -> void:
 	var floor_size: Vector2 = floor_mesh.mesh.size
-
+	
 	grid_size = Vector2i(
 		floori(floor_size.x * floor_mesh.scale.x / cell_size),
 		floori(floor_size.y * floor_mesh.scale.z / cell_size)
 	)
+	if (player != null):
+		player.player_turn_taken.connect(_on_player_turn_taken)
+		player_turn_readied.emit()
 
+# == [[ UTIL FUNCTIONS ]] ==
 
 func is_in_bounds(grid_position: Vector2i) -> bool:
 	var min_x: int = -floori(grid_size.x / 2.0)
@@ -30,6 +38,7 @@ func is_in_bounds(grid_position: Vector2i) -> bool:
 func is_invalid_direction_vector(direction: Vector2i) -> bool:
 	return abs(direction.x) + abs(direction.y) != 1
 
+# == [[ ENTITY LOGIC ]] ==
 
 func register_entity(entity: Node3D) -> bool:
 	if entity not in entity_positions:
@@ -67,3 +76,22 @@ func process_move(entity: Node3D, direction: Vector2i) -> MoveResult:
 	
 	entity_positions[entity] = target_position
 	return MoveResult.new(MoveResult.MoveEnum.SUCCESS, target_position)
+
+# ==[[ TURN LOGIC ]] ==
+
+# Turns will be handled by using groups to call an abstract "take_turn" function
+# on all in the "turn_listener" group. The player should NOT be part of this
+# group! We will take input from the player as a turn, which will emit the
+# "player_turn_taken" signal, disable player input, emit to all "turn_listener"
+# entities causing the CPU turn, and once that call has resolved, pass control
+# back to the player.
+
+# Called when the player is done with their turn (usually, after movement)
+func _on_player_turn_taken():
+	process_entity_turn()
+	
+
+# Call the take_turn function of all entities waiting on a turn.
+func process_entity_turn() -> void:
+	get_tree().call_group("turn_listener", "take_turn")
+	player_turn_readied.emit()
