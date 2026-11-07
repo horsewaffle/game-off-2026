@@ -17,3 +17,6 @@ func _init(
 		self.fightable = capFightable
 		self.searchable = capSearchable
 		self.walkable = capWalkable
+
+func take_turn():
+	pass

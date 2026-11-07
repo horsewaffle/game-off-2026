@@ -70,12 +70,22 @@ func process_move(entity: Node3D, direction: Vector2i) -> MoveResult:
 	if target_position in entity_positions.values():
 		var occupant = entity_positions.find_key(target_position)
 		
-		if occupant is Enemy:
+		if occupant.name == "PlayerCharacter":
+			return MoveResult.new(MoveResult.MoveEnum.INTERACT, current_position, occupant)
+		elif occupant is Enemy:
 			return MoveResult.new(MoveResult.MoveEnum.INTERACT, current_position, occupant)
 		
 	
 	entity_positions[entity] = target_position
 	return MoveResult.new(MoveResult.MoveEnum.SUCCESS, target_position)
+
+# Take a position and return a reference to the entity at that position (or null) without registering a move.
+func query_board(query_pos: Vector2i) -> Node3D:
+	if query_pos in entity_positions.values():
+		return entity_positions.find_key(query_pos)
+	else:
+		return null
+
 
 # ==[[ TURN LOGIC ]] ==
 
@@ -94,4 +104,8 @@ func _on_player_turn_taken():
 # Call the take_turn function of all entities waiting on a turn.
 func process_entity_turn() -> void:
 	get_tree().call_group("turn_listener", "take_turn")
+
+	# Minimum turn time so players can process CPU turn
+	await get_tree().create_timer(0.3).timeout
+
 	player_turn_readied.emit()

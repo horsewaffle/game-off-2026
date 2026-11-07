@@ -49,7 +49,7 @@ spot_range = 10.801
 [node name="Board" type="Node3D" parent="." unique_id=1067589739]
 script = ExtResource("3_rcshh")
 
-[node name="Enemy" type="CharacterBody3D" parent="." unique_id=265865041]
+[node name="Enemy" type="CharacterBody3D" parent="." unique_id=265865041 groups=["turn_listener"]]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 1, -2)
 script = ExtResource("5_i7v7t")
 
