@@ -1,6 +1,5 @@
-extends CharacterBody3D
-
 class_name PlayerController
+extends Entity
 
 @onready var board = $"../Board"
 
@@ -12,6 +11,9 @@ var can_take_action = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	fightable = Fightable.new(200, 25, 10, 2.0)
+	# (health, attack, defence, mult)
+	
 	if (board != null):
 		board.player_turn_readied.connect(_on_player_turn_readied)
 
