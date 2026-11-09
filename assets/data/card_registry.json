@@ -1,0 +1,20 @@
+[
+    {
+        "id": "bsl_1",
+        "name": "Bitshift <<: 1",
+        "description": "Move all bits in the target number one position to the left, discarding the most significant bit.",
+        "on_activate": "print('Bitshift one left called!')"
+    },
+    {   
+        "id": "bsr_1",
+        "name": "Bitshift >>: 1",
+        "description": "Move all bits in the target number one position to the right, discarding the least significant bit.",
+        "on_activate": "print('Bitshift one right called!')"
+    },
+    {
+        "id": "bm1_4",
+        "name": "Bitmask =1: 4",
+        "description": "Replace the value of the bit in position 4 with a 1.",
+        "on_activate": "print('Bitmask =1 position four called!')"
+    }
+]
