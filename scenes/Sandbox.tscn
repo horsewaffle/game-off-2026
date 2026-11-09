@@ -1,0 +1,8 @@
+[gd_scene format=3 uid="uid://ug3ntivwox1c"]
+
+[ext_resource type="Script" uid="uid://dcl61gkfikvm8" path="res://scripts/test/test_deck.gd" id="1_unugr"]
+
+[node name="Sandbox" type="Node3D" unique_id=1760522219]
+
+[node name="DeckCardTest" type="Node3D" parent="." unique_id=368294945]
+script = ExtResource("1_unugr")
