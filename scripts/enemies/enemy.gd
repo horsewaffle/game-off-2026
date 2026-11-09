@@ -4,7 +4,8 @@ extends Entity
 @onready var board = $"../Board"
 
 func _ready() -> void:
-	fightable = Fightable.new(100, 20)
+	fightable = Fightable.new(100, 20, 5, 1)
+	# (health, attack, defence, mult)
 
 func take_turn():
 
