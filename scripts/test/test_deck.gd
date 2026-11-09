@@ -4,7 +4,7 @@ var test_counter: int = 0
 
 func _ready():
 	run_card_test()
-
+	run_deck_test()
 
 
 func run_card_test():
@@ -32,7 +32,7 @@ func run_deck_test():
 	print("[EMPTY DECK INIT TEST PASS]")
 
 	print("[ADD CARD TO DECK TEST]")
-	var test_card = Card.new("test_01", "Test Card", "Test Desc", null)
+	var test_card = Card.new("test_01", "Test Card", "Test Desc", test_counter_increment)
 	test_deck.add_to_roster(test_card)
 	assert(test_deck.get_roster_size() == 1, "Roster size should increment when adding card")
 	assert(test_deck.get_pool_size() == 0, "Pool size should not increment when adding to roster")
@@ -40,7 +40,8 @@ func run_deck_test():
 
 	print("[RESET POOL TEST]")
 	test_deck.reset_deck()
-	assert(test_deck.get_roster_size() == test_deck.get_pool_size() == 1, "Pool should be reset to roster on deck reset")
+	assert(test_deck.get_pool_size() == 1, "Pool should be refilled with all available cards on reset")
+	assert(test_deck.get_roster_size() == test_deck.get_pool_size(), "Pool should be reset to roster on deck reset")
 	print("[RESET POOL TEST PASS]")
 
 	print("[DRAW CARD TEST]")
