@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://d3eebq6nq071l"]
+
+[ext_resource type="Texture2D" uid="uid://doilv55v0nf6e" path="res://assets/sprites/bsr.png" id="1_s55cg"]
+
+[node name="CardUi" type="Control" unique_id=1592631454]
+custom_minimum_size = Vector2(100, 130)
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -1052.0
+offset_bottom = -518.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="Panel" parent="." unique_id=418730970]
+self_modulate = Color(18.446964, 15.158829, 9.135574, 1)
+texture_filter = 3
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Attr1" type="Panel" parent="Panel" unique_id=1391546213]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+offset_bottom = 9.1552734e-05
+grow_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(5, -5)
+offset_transform_visual_only = false
+
+[node name="Attr1Val" type="Label" parent="Panel/Attr1" unique_id=1363347490]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Icon" type="TextureRect" parent="Panel" unique_id=2065812956]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -37.5
+offset_right = 37.5
+offset_bottom = 75.0
+grow_horizontal = 2
+pivot_offset = Vector2(37.5, 0)
+offset_transform_enabled = true
+offset_transform_position = Vector2(0, 4)
+offset_transform_visual_only = false
+texture = ExtResource("1_s55cg")
+stretch_mode = 5
+
+[node name="Attr2" type="Panel" parent="Panel" unique_id=1736639299]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -40.0
+offset_top = -40.00009
+grow_horizontal = 0
+grow_vertical = 0
+offset_transform_enabled = true
+offset_transform_position = Vector2(-5, -5)
+offset_transform_visual_only = false
+
+[node name="Attr2Val" type="Label" parent="Panel/Attr2" unique_id=1905718172]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "R"
+horizontal_alignment = 1
+vertical_alignment = 1

@@ -1,0 +1,89 @@
+[gd_scene format=3 uid="uid://cqq23kba0bdcu"]
+
+[ext_resource type="PackedScene" uid="uid://d3eebq6nq071l" path="res://scenes/ui/card_ui.tscn" id="1_g60h1"]
+
+[sub_resource type="SystemFont" id="SystemFont_utqgd"]
+font_names = PackedStringArray("Goudy Old Style")
+
+[sub_resource type="LabelSettings" id="LabelSettings_g60h1"]
+font = SubResource("SystemFont_utqgd")
+
+[node name="WorldUi" type="Control" unique_id=232719834]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Control" type="Control" parent="." unique_id=1600984466]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="LeftUIPanel" type="VBoxContainer" parent="Control" unique_id=1586492417]
+custom_minimum_size = Vector2(100, 0)
+custom_maximum_size = Vector2(300, -1)
+layout_mode = 1
+anchors_preset = 9
+anchor_bottom = 1.0
+offset_right = 300.0
+grow_vertical = 2
+
+[node name="AttackInfoPanel" type="PanelContainer" parent="Control/LeftUIPanel" unique_id=1928862503]
+self_modulate = Color(0.10379093, 0.06790352, 0.027756108, 1)
+custom_minimum_size = Vector2(-1, 150)
+custom_maximum_size = Vector2(-1, 150)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="AttackLabel" type="Label" parent="Control/LeftUIPanel/AttackInfoPanel" unique_id=728985073]
+layout_mode = 2
+size_flags_vertical = 0
+text = "ATTACK"
+label_settings = SubResource("LabelSettings_g60h1")
+
+[node name="PreppedHandPanel" type="PanelContainer" parent="Control/LeftUIPanel" unique_id=1335969009]
+self_modulate = Color(0.10379093, 0.06790352, 0.027756108, 1)
+custom_minimum_size = Vector2(-1, 150)
+custom_maximum_size = Vector2(-1, 150)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="ModifierLabel" type="Label" parent="Control/LeftUIPanel/PreppedHandPanel" unique_id=507510826]
+layout_mode = 2
+size_flags_vertical = 0
+text = "MODIFIER"
+label_settings = SubResource("LabelSettings_g60h1")
+
+[node name="DrawnCardsPanel" type="PanelContainer" parent="Control/LeftUIPanel" unique_id=2094773439]
+self_modulate = Color(0.10379093, 0.06790352, 0.027756108, 1)
+custom_minimum_size = Vector2(-1, 150)
+layout_mode = 2
+
+[node name="DrawnCardsVBox" type="VBoxContainer" parent="Control/LeftUIPanel/DrawnCardsPanel" unique_id=1036657258]
+self_modulate = Color(0.23935685, 0.1579341, 0.0526257, 1)
+custom_minimum_size = Vector2(300, 150)
+layout_mode = 2
+size_flags_vertical = 2
+
+[node name="HandLabel" type="Label" parent="Control/LeftUIPanel/DrawnCardsPanel/DrawnCardsVBox" unique_id=1493880751]
+layout_mode = 2
+size_flags_vertical = 0
+text = "HAND"
+label_settings = SubResource("LabelSettings_g60h1")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/LeftUIPanel/DrawnCardsPanel/DrawnCardsVBox" unique_id=317197465]
+propagate_maximum_size = false
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 4
+
+[node name="CardUi" parent="Control/LeftUIPanel/DrawnCardsPanel/DrawnCardsVBox/HBoxContainer" unique_id=1592631454 instance=ExtResource("1_g60h1")]
+layout_mode = 2
+
+[node name="CardUi2" parent="Control/LeftUIPanel/DrawnCardsPanel/DrawnCardsVBox/HBoxContainer" unique_id=954104584 instance=ExtResource("1_g60h1")]
+layout_mode = 2
