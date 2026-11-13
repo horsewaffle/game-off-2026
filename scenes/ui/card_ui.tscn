@@ -2,10 +2,11 @@
 
 [ext_resource type="Script" uid="uid://ulabhxoq7uu" path="res://scripts/ui/card_ui.gd" id="1_1kpl7"]
 [ext_resource type="Texture2D" uid="uid://doilv55v0nf6e" path="res://assets/sprites/bsr.png" id="1_s55cg"]
+[ext_resource type="Theme" uid="uid://57gps5di3n78" path="res://assets/card_primary.tres" id="1_wc1mw"]
+[ext_resource type="Theme" uid="uid://bf4dx2djp31kv" path="res://assets/card_secondary.tres" id="3_5rjcn"]
 
 [node name="CardUi" type="Control" unique_id=715602749]
 custom_minimum_size = Vector2(100, 130)
-clip_contents = true
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -14,11 +15,14 @@ offset_right = -1052.0
 offset_bottom = -518.0
 grow_horizontal = 2
 grow_vertical = 2
+offset_transform_enabled = true
+mouse_filter = 1
+mouse_behavior_recursive = 2
+theme = ExtResource("1_wc1mw")
 script = ExtResource("1_1kpl7")
 metadata/_custom_type_script = "uid://ulabhxoq7uu"
 
 [node name="Panel" type="Panel" parent="." unique_id=418730970]
-self_modulate = Color(18.446964, 15.158829, 9.135574, 1)
 texture_filter = 3
 layout_mode = 1
 anchors_preset = 15
@@ -26,6 +30,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 
 [node name="Attr1" type="Panel" parent="Panel" unique_id=1391546213]
 layout_mode = 1
@@ -39,6 +44,9 @@ grow_vertical = 0
 offset_transform_enabled = true
 offset_transform_position = Vector2(5, -5)
 offset_transform_visual_only = false
+mouse_filter = 1
+theme = ExtResource("3_5rjcn")
+theme_type_variation = &"PanelAlt"
 
 [node name="Attr1Val" type="Label" parent="Panel/Attr1" unique_id=1363347490]
 layout_mode = 1
@@ -47,6 +55,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 text = "1"
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -81,6 +90,8 @@ grow_vertical = 0
 offset_transform_enabled = true
 offset_transform_position = Vector2(-5, -5)
 offset_transform_visual_only = false
+mouse_filter = 1
+theme = ExtResource("3_5rjcn")
 
 [node name="Attr2Val" type="Label" parent="Panel/Attr2" unique_id=1905718172]
 layout_mode = 1
@@ -89,6 +100,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 1
 text = "R"
 horizontal_alignment = 1
 vertical_alignment = 1
