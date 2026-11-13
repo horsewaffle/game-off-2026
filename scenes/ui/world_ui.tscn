@@ -3,6 +3,7 @@
 [ext_resource type="Theme" uid="uid://qetr0rmci5ml" path="res://assets/ui_theme.tres" id="1_7t1tj"]
 [ext_resource type="Script" uid="uid://cxd3atsrgn42s" path="res://scripts/ui/deck_button.gd" id="1_g60h1"]
 [ext_resource type="Script" uid="uid://b3iq5yxwt6kqh" path="res://scenes/ui/hand_controller.gd" id="3_t4vqi"]
+[ext_resource type="Script" uid="uid://uymkh3s6wh2n" path="res://scenes/ui/attack_button.gd" id="4_utqgd"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7t1tj"]
 bg_color = Color(0.28680405, 0.14403838, 0.13479668, 1)
@@ -59,12 +60,13 @@ metadata/_edit_horizontal_guides_ = [0.0, 580.0]
 metadata/_edit_vertical_guides_ = [1153.0, 60.0]
 
 [node name="PlayerUIBottom" type="HBoxContainer" parent="." unique_id=681682079]
-custom_minimum_size = Vector2(0, 150)
+custom_minimum_size = Vector2(0, 140)
 layout_mode = 1
 anchors_preset = 12
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = -140.0
 grow_horizontal = 2
 grow_vertical = 0
 mouse_filter = 2
@@ -120,3 +122,46 @@ custom_maximum_size = Vector2(-1, 140)
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
+
+[node name="Panel" type="Panel" parent="." unique_id=1065275575]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -283.0
+offset_top = -224.0
+offset_right = -3.0
+offset_bottom = -144.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="Button" type="Button" parent="Panel" unique_id=619115391]
+custom_maximum_size = Vector2(270, 70)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -135.0
+offset_top = -35.0
+offset_right = 135.0
+offset_bottom = 35.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_behavior_recursive = 2
+script = ExtResource("4_utqgd")
+
+[node name="Label" type="Label" parent="Panel/Button" unique_id=1781488362]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 40
+text = "ATTACK"
+horizontal_alignment = 1
+vertical_alignment = 1

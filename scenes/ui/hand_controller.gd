@@ -14,11 +14,6 @@ func add_card_to_hand(card_ui: CardUI):
 func _ready() -> void:
 	pass # Replace with function body.
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 func _on_card_selected(card_ui: CardUI):
 	selected_cards.append(card_ui)
 	card_ui.update_order_label(selected_cards.size())
