@@ -10,8 +10,9 @@ func reset_deck() -> void:
 	self.pool = self.roster.duplicate()
 
 func draw_one() -> Card:
+	print(pool.size())
 	if pool.size() > 0:
-		var pool_index = randi_range(0, pool.size())
+		var pool_index = randi_range(0, pool.size() - 1)
 		var drawn_card = pool.pop_at(pool_index)
 		return drawn_card
 	else:
