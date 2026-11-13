@@ -5,8 +5,19 @@
 [ext_resource type="Theme" uid="uid://57gps5di3n78" path="res://assets/card_primary.tres" id="1_wc1mw"]
 [ext_resource type="Theme" uid="uid://bf4dx2djp31kv" path="res://assets/card_secondary.tres" id="3_5rjcn"]
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_wc1mw"]
+bg_color = Color(0.3374669, 0.4480642, 0.25195324, 1)
+corner_radius_top_left = 20
+corner_radius_top_right = 20
+corner_radius_bottom_right = 20
+corner_radius_bottom_left = 20
+shadow_color = Color(0, 0, 0, 0.2509804)
+shadow_size = 2
+shadow_offset = Vector2(-2, 2)
+
 [node name="CardUi" type="Control" unique_id=715602749]
 custom_minimum_size = Vector2(100, 130)
+custom_maximum_size = Vector2(100, 130)
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -104,3 +115,40 @@ mouse_filter = 1
 text = "R"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="OrderLabel" type="Panel" parent="." unique_id=1841993286]
+visible = false
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -62.5
+offset_top = -77.5
+offset_right = -37.5
+offset_bottom = -52.499992
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_wc1mw")
+
+[node name="OrderLabelValue" type="Label" parent="OrderLabel" unique_id=2016864077]
+custom_maximum_size = Vector2(25, 25)
+clip_contents = true
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -12.5
+offset_top = -12.5
+offset_right = 12.5
+offset_bottom = 12.5
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 15
+text = "2"
+horizontal_alignment = 1
+vertical_alignment = 1
+clip_text = true

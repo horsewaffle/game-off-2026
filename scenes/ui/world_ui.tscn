@@ -2,6 +2,7 @@
 
 [ext_resource type="Theme" uid="uid://qetr0rmci5ml" path="res://assets/ui_theme.tres" id="1_7t1tj"]
 [ext_resource type="Script" uid="uid://cxd3atsrgn42s" path="res://scripts/ui/deck_button.gd" id="1_g60h1"]
+[ext_resource type="Script" uid="uid://b3iq5yxwt6kqh" path="res://scenes/ui/hand_controller.gd" id="3_t4vqi"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7t1tj"]
 bg_color = Color(0.28680405, 0.14403838, 0.13479668, 1)
@@ -54,8 +55,8 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 mouse_behavior_recursive = 1
-metadata/_edit_horizontal_guides_ = [0.0]
-metadata/_edit_vertical_guides_ = [1153.0]
+metadata/_edit_horizontal_guides_ = [0.0, 580.0]
+metadata/_edit_vertical_guides_ = [1153.0, 60.0]
 
 [node name="PlayerUIBottom" type="HBoxContainer" parent="." unique_id=681682079]
 custom_minimum_size = Vector2(0, 150)
@@ -103,6 +104,7 @@ size_flags_horizontal = 0
 size_flags_vertical = 8
 mouse_filter = 2
 mouse_behavior_recursive = 1
+script = ExtResource("3_t4vqi")
 
 [node name="StagedCardsContainer" type="Panel" parent="PlayerUIBottom" unique_id=57706701]
 visible = false
