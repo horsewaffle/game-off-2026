@@ -14,7 +14,7 @@ var staged_cards: Array[Card]
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	fightable = Fightable.new(200, 25, 10, 2.0)
+	fightable = Fightable.new(200, 5, 10, 2.0)
 	# (health, attack, defence, mult)
 	
 	if (board != null):

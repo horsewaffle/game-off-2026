@@ -4,10 +4,11 @@ extends Entity
 @onready var board = $"../Board"
 
 func _ready() -> void:
-	fightable = Fightable.new(1, 20, 5, 1)
+	fightable = Fightable.new(20, 20, 5, 1)
 	# (health, attack, defence, mult)
 	
 	fightable.dead.connect(_on_death)
+	$"HealthBar".initialise_health_bar()
 	
 func _on_death() -> void:
 	print(self, " died!")

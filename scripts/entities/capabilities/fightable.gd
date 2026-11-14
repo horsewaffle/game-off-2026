@@ -5,6 +5,8 @@ var health: int
 var attack: int
 var defence: int
 var mult: float
+
+signal health_updated(new_health: int)
 signal dead
 
 func _init(
@@ -31,6 +33,7 @@ func receive_damage(amount: int):
 	self.health -= min(self.health, processed_amount)
 	print(self.health, " remaining")
 	
+	health_updated.emit(self.health)
 	if death_check():
 		dead.emit()
 
