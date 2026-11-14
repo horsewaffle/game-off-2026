@@ -58,7 +58,8 @@ func _input(_event) -> void:
 			)
 	
 		elif board_response.result == MoveResult.MoveEnum.INTERACT:
-			print("am finna scrap ", board_response.occupant)
+			board_response.occupant.fightable.receive_damage(self.fightable.attack)
+			print("I dealt ", self.fightable.attack, " to ", board_response.occupant)
 			
 		
 		can_take_action = false

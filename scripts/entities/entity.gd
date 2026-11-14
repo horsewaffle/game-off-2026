@@ -6,7 +6,6 @@ var fightable: Fightable = null
 var searchable: Searchable = null
 var walkable: bool = false
 
-
 func _init(
 	resOn_interact: Callable = Callable(),
 	capFightable: Fightable = null,
