@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://bbtr0lmw8glpr" path="res://scenes/game_space.gd" id="1_7fcka"]
 [ext_resource type="Material" uid="uid://bqo82xrcija68" path="res://assets/test_tex.tres" id="2_rcshh"]
+[ext_resource type="PackedScene" uid="uid://cqq23kba0bdcu" path="res://scenes/ui/world_ui.tscn" id="2_t0a4j"]
 [ext_resource type="Script" uid="uid://cbmes3pgcbs1c" path="res://scripts/player/player_controller.gd" id="3_7fcka"]
 [ext_resource type="Script" uid="uid://drixa8fwn4rp3" path="res://scenes/board.gd" id="3_rcshh"]
 [ext_resource type="Script" uid="uid://kgnjrstpy2hr" path="res://scripts/enemies/enemy.gd" id="5_i7v7t"]
@@ -18,6 +19,8 @@
 
 [node name="GameSpace" type="Node3D" unique_id=1892350279 groups=["turn_listener"]]
 script = ExtResource("1_7fcka")
+
+[node name="WorldUi" parent="." unique_id=232719834 instance=ExtResource("2_t0a4j")]
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=489857694]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, -0.01, 0)

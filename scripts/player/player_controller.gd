@@ -9,6 +9,9 @@ signal player_turn_taken
 # Can the player provide blocking input?
 var can_take_action = false
 
+# List of prepped cards, in order
+var staged_cards: Array[Card]
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	fightable = Fightable.new(200, 25, 10, 2.0)
