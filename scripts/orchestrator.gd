@@ -1,0 +1,142 @@
+class_name Orchestrator
+extends Node3D
+
+# The Orchestrator should be responsible for the game state. This includes:
+# - Instantiating the Floor that the player is on
+# - Spawning Entities onto that floor - including Enemies
+# - Passing game events around to their recipients - prompts to take their turn, attacks, etc.
+# The logic for these events can be delegated to child scripts, but the calls to actually perform them
+# should pass through the Orchestrator at least once.
+
+# Also, connect children to the Orchestrator using signals/groups/etc not direct code!
+# We don't know where each one will be in the Scene, so hardcoding paths is a recipe for disaster,
+# especially for one-to-many relationships with Nodes that may not persist, like Orchestrator:Enemy
+
+# ||=========================|| #
+# ||         SIGNALS         || #
+# ||=========================|| #
+
+# Emitted when a Floor is ready for gameplay, for the turn loop to start
+signal floor_readied
+
+# Emitted when a Floor is finished, to pause turn loop and begin cleanup/start new Floor instantiation
+signal floor_finished
+
+# Emitted in response to a request from an Entity
+signal turn_response(fulfilled: bool, packet: Dictionary)
+
+# ||=========================|| #
+# ||  GAME SPACE VARIABLES   || #
+# ||=========================|| #
+
+# Reference to the player controller. Should be empty until the Orchestrator instantiates the player
+const player_scene = preload("res://scenes/entities/player_character.tscn")
+var player
+
+const enemy_scene = preload("res://scenes/entities/enemy.tscn")
+
+
+# Reference to the current floor the game is on.
+var current_floor: Node3D
+
+# Reference to all currently instantiated Entities and positions - this includes the PlayerController!
+var live_entities: Dictionary[Entity, Vector2i]
+
+
+# ||=========================|| #
+# || INSTANTIATION FUNCTIONS || #
+# ||=========================|| #
+
+# Wrapper function for instantiating a Floor when the player moves to it. This should:
+# - Generate the Floor geometry
+# - Spawn Entities into the Floor
+# - Move the generated Floor into the Game scene
+# - Spawn the PlayerController onto the Floor
+# - Emit a floor_readied signal when done, to signal beginning of gameplay
+func instantiate_floor():
+	pass
+
+# Wrapper function for spawning an Entity into the current Floor.
+func instantiate_entity():
+	pass
+	
+func instantiate_enemy(pos: Vector2i):
+	var new_enemy: Entity = enemy_scene.instantiate()
+	add_child(new_enemy)
+	live_entities[new_enemy] = pos
+	new_enemy.position = Vector3i(pos.x, 0, pos.y)
+	new_enemy.turn_requested.connect(_on_turn_requested)
+
+# Wrapper function for instantiating the PlayerController
+func instantiate_player_controller():
+	player = player_scene.instantiate()
+	add_child(player)
+	live_entities[player] = Vector2i(0,0)
+	player.turn_requested.connect(_on_turn_requested)
+	player.enemy_turn_triggered.connect(_on_enemy_turn_triggered)
+
+# Currently, the Orchestrator spawns in a Floor when added to the scene for testing. Eventually,
+# this should stop being the case - the Orchestrator will be triggered by the game starting
+# from the menu.
+func _ready():
+	print_debug("[Orchestrator] Beginning floor instantiation...")
+	instantiate_floor()
+	print_debug("[Orchestrator] Floor instantiation finished.")
+	print_debug("[Orchestrator] Spawning in PlayerController...")
+	instantiate_player_controller()
+	print_debug("[Orchestrator] PlayerController instantiation finished.")
+	
+	print_debug("[Orchestrator] Spawning two test enemies...")
+	instantiate_enemy(Vector2i(1, 1))
+	instantiate_enemy(Vector2i(1, 3))
+	print_debug("[Orchestrator] Two enemies spawned.")
+	floor_readied.emit()
+	
+	player.take_turn()
+	
+func _on_enemy_turn_triggered():
+	
+	# Let all non-player entities take their turn...
+	for entity: Entity in get_tree().get_nodes_in_group("turn_listener"):
+		await entity.take_turn()
+		await get_tree().create_timer(0.3).timeout
+	
+	# After entities are done taking their turn, pass turn back to player.
+	player.take_turn()
+
+
+
+func _on_turn_requested(entity: Entity, pos: Vector2i, action: String):
+	var result: MoveResult
+	match(action):
+		"move":
+			result = process_move(entity, pos)
+			if result.result == MoveResult.MoveEnum.SUCCESS:
+				entity.move(pos)
+				entity.end_turn()
+			else:
+				entity.handle_turn_response(result, pos, result.occupant)
+				entity.end_turn()
+			
+			
+func process_move(entity: Entity, target: Vector2i) -> MoveResult:
+	
+	var current_position = live_entities[entity]
+	if not is_in_bounds(target):
+		return MoveResult.new(MoveResult.MoveEnum.FAIL, current_position)
+	
+	if target in live_entities.values():
+		var occupant = live_entities.find_key(target)
+		
+		return MoveResult.new(MoveResult.MoveEnum.INTERACT, current_position, occupant)
+		
+	live_entities[entity] = target
+	return MoveResult.new(MoveResult.MoveEnum.SUCCESS, target)
+
+func is_in_bounds(grid_position: Vector2i) -> bool:
+	return (
+		grid_position.x >= 0
+		and grid_position.x <= 10
+		and grid_position.y >= 0
+		and grid_position.y <= 10
+	)
