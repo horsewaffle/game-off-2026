@@ -1,6 +1,7 @@
 class_name Fightable
 extends RefCounted
 
+var max_health: int
 var health: int
 var attack: int
 var defence: int
@@ -15,7 +16,8 @@ func _init(
 	resDefence: int,
 	resMult: float
 	) -> void:
-	self.health = resHealth
+	self.max_health = resHealth
+	self.health = max_health
 	self.attack = resAttack
 	self.defence = resDefence
 	self.mult = resMult

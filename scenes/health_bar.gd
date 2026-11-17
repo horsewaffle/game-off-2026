@@ -19,7 +19,7 @@ func initialise_health_bar() -> void:
 	max_value = parent_enemy.fightable.health
 	value = parent_enemy.fightable.health
 	parent_enemy.fightable.health_updated.connect(_on_health_updated)
-	visible = true
+	visible = parent_enemy.fightable.health != parent_enemy.fightable.max_health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -29,3 +29,4 @@ func _process(delta: float) -> void:
 
 func _on_health_updated(new_health: int):
 	value = new_health
+	visible = parent_enemy.fightable.health != parent_enemy.fightable.max_health
