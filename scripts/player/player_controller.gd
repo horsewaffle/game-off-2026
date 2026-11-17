@@ -10,6 +10,9 @@ signal player_turn_taken
 var can_take_action = false
 var xp: int
 
+# List of prepped cards, in order
+var staged_cards: Array[Card]
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	fightable = Fightable.new(200, 25, 10, 2.0, 0)
@@ -65,9 +68,6 @@ func _input(_event) -> void:
 			
 		
 		can_take_action = false
-
-		# Minimum turn time so players don't accidentally spam
-		await get_tree().create_timer(0.3).timeout
 		
 		player_turn_taken.emit()
 

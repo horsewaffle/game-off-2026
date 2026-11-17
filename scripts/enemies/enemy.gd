@@ -9,6 +9,7 @@ func _ready() -> void:
 	# (health, attack, defence, mult, xp)
 	
 	fightable.dead.connect(_on_death)
+	$"HealthBar".initialise_health_bar()
 	
 func _on_death() -> void:
 	print(self, " died!")
