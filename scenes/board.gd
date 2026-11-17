@@ -106,6 +106,6 @@ func process_entity_turn() -> void:
 	get_tree().call_group("turn_listener", "take_turn")
 
 	# Minimum turn time so players can process CPU turn
-	await get_tree().create_timer(0.3).timeout
+	await get_tree().create_timer(0.6).timeout
 
 	player_turn_readied.emit()

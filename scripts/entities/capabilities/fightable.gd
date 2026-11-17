@@ -1,10 +1,13 @@
 class_name Fightable
 extends RefCounted
 
+var max_health: int
 var health: int
 var attack: int
 var defence: int
 var mult: float
+
+signal health_updated(new_health: int)
 signal dead
 
 func _init(
@@ -13,7 +16,8 @@ func _init(
 	resDefence: int,
 	resMult: float
 	) -> void:
-	self.health = resHealth
+	self.max_health = resHealth
+	self.health = max_health
 	self.attack = resAttack
 	self.defence = resDefence
 	self.mult = resMult
@@ -31,6 +35,7 @@ func receive_damage(amount: int):
 	self.health -= min(self.health, processed_amount)
 	print(self.health, " remaining")
 	
+	health_updated.emit(self.health)
 	if death_check():
 		dead.emit()
 
