@@ -5,7 +5,11 @@
 
 [sub_resource type="CapsuleShape3D" id="CapsuleShape3D_md0e3"]
 
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_10dcs"]
+albedo_color = Color(0.98914176, 0.5792684, 0.48325753, 1)
+
 [sub_resource type="CapsuleMesh" id="CapsuleMesh_4ra3w"]
+material = SubResource("StandardMaterial3D_10dcs")
 
 [node name="Enemy" type="Node3D" unique_id=773698424 groups=["turn_listener"]]
 script = ExtResource("1_7p1mj")
@@ -25,6 +29,3 @@ shape = SubResource("CapsuleShape3D_md0e3")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy/CollisionShape3D" unique_id=326111098]
 mesh = SubResource("CapsuleMesh_4ra3w")
-
-[node name="Camera3D" type="Camera3D" parent="." unique_id=1666385156]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5958173, 7.059069)
