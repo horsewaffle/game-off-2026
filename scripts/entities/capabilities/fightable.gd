@@ -5,18 +5,21 @@ var health: int
 var attack: int
 var defence: int
 var mult: float
+var xp: int
 signal dead
 
 func _init(
 	resHealth: int,
 	resAttack: int,
 	resDefence: int,
-	resMult: float
+	resMult: float,
+	resXp: int
 	) -> void:
 	self.health = resHealth
 	self.attack = resAttack
 	self.defence = resDefence
 	self.mult = resMult
+	self.xp = resXp
 
 func death_check() -> bool:
 	return self.health <= 0

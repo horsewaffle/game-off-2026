@@ -16,3 +16,5 @@ func _ready() -> void:
 	
 	if not enemy_registered:
 		push_error("Failed to register Enemy with Board")
+	
+	enemy.xp_awarded.connect(player.gain_xp)

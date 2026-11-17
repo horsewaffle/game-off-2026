@@ -8,14 +8,16 @@ signal player_turn_taken
 
 # Can the player provide blocking input?
 var can_take_action = false
+var xp: int
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	fightable = Fightable.new(200, 25, 10, 2.0)
-	# (health, attack, defence, mult)
+	fightable = Fightable.new(200, 25, 10, 2.0, 0)
+	# (health, attack, defence, mult, xp)
 	
 	if (board != null):
 		board.player_turn_readied.connect(_on_player_turn_readied)
+
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
@@ -55,8 +57,11 @@ func _input(_event) -> void:
 			)
 	
 		elif board_response.result == MoveResult.MoveEnum.INTERACT:
-			board_response.occupant.fightable.receive_damage(self.fightable.attack)
-			print("I dealt ", self.fightable.attack, " to ", board_response.occupant)
+			var target = board_response.occupant
+			
+			if target is Entity and target.fightable != null:
+				target.fightable.receive_damage(self.fightable.attack)
+				print("I dealt ", self.fightable.attack, " to ", board_response.occupant)
 			
 		
 		can_take_action = false
@@ -83,3 +88,8 @@ func is_adjacent_to_fightable() -> bool:
 			return true
 			
 	return false
+
+func gain_xp(amount: int) -> void:
+	fightable.xp += amount
+	print(amount, "xp added! I now have ", fightable.xp, " xp!")
+	
