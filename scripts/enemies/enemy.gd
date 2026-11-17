@@ -2,16 +2,18 @@ class_name Enemy
 extends Entity
 
 @onready var board = $"../Board"
+signal xp_awarded(amount: int)
 
 func _ready() -> void:
-	fightable = Fightable.new(20, 20, 5, 1)
-	# (health, attack, defence, mult)
+	fightable = Fightable.new(1, 20, 5, 1, 20)
+	# (health, attack, defence, mult, xp)
 	
 	fightable.dead.connect(_on_death)
 	$"HealthBar".initialise_health_bar()
 	
 func _on_death() -> void:
 	print(self, " died!")
+	xp_awarded.emit(fightable.xp)
 	self.fightable = null
 	self.searchable = Searchable.new(["stick"])
 	self.walkable = true
