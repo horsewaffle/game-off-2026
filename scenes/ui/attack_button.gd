@@ -1,3 +1,4 @@
+class_name AttackButton
 extends Button
 
 const tile_highlight = preload("res://scenes/ui/tile_highlight.tscn")
@@ -10,37 +11,37 @@ var game_root: Node3D = $"../../.."
 @onready
 var player: PlayerController
 
+signal attack_button_pressed
+
+# TODO: Better way to propagate this than just passing it up?
+signal ui_attack_prepared(target_pos: Vector2i)
+
 var active_elements: Array
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	player = game_root.find_child("PlayerCharacter")
-	
-	player.player_turn_taken.connect(_on_player_turn_taken)
-
-
 func _pressed() -> void:
-	
 	destroy_active_elements()
+	attack_button_pressed.emit()
+
+func spawn_adjacent_tile_highlights(root_pos: Vector2i):
 	for offset in [Vector2i(1,0), Vector2i(0,1), Vector2i(-1,0), Vector2i(0,-1)]:
-		var test_asset = tile_highlight.instantiate()
-		
-		test_asset.position = player.position
-		test_asset.position.x += offset.x
-		test_asset.position.y = 0.02
-		test_asset.position.z += offset.y
-		
-		ui_root.add_child(test_asset)
-		test_asset.element_activated.connect(_on_highlighted_tile_clicked)
-		active_elements.append(test_asset)
+			var test_asset = tile_highlight.instantiate()
+			
+			test_asset.position = Vector3(root_pos.x, 0.02, root_pos.y)
+			test_asset.position.x += offset.x
+			test_asset.position.y = 0.02
+			test_asset.position.z += offset.y
+			
+			ui_root.add_child(test_asset)
+			test_asset.element_activated.connect(_on_highlighted_tile_clicked)
+			active_elements.append(test_asset)
 
 # Reset UI elements if the player takes a turn
-func _on_player_turn_taken():
+func on_player_turn_taken():
 	destroy_active_elements()
 
 func _on_highlighted_tile_clicked(tile_pos: Vector2i):
-	# TODO: Wrap fight logic in function rather than hardcoded in movement
-	print("Attacking tile at ", tile_pos.x, ":", tile_pos.y)
+
+	ui_attack_prepared.emit(tile_pos)
 	destroy_active_elements()
 	
 func destroy_active_elements():

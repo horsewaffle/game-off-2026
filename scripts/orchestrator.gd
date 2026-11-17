@@ -35,6 +35,7 @@ var player
 
 const enemy_scene = preload("res://scenes/entities/enemy.tscn")
 
+const ui_scene = preload("res://scenes/ui/world_ui.tscn")
 
 # Reference to the current floor the game is on.
 var current_floor: Node3D
@@ -76,17 +77,30 @@ func instantiate_player_controller():
 	player.turn_requested.connect(_on_turn_requested)
 	player.enemy_turn_triggered.connect(_on_enemy_turn_triggered)
 
+# Helper function for listening to UI signals
+func spawn_ui():
+	var ui_instance = ui_scene.instantiate()
+	add_child(ui_instance)
+	ui_instance.init_stats(player)
+	ui_instance.ui_attack_prepared.connect(_on_ui_attack_prepared)
+
 
 # Currently, the Orchestrator spawns in a Floor when added to the scene for testing. Eventually,
 # this should stop being the case - the Orchestrator will be triggered by the game starting
 # from the menu.
 func _ready():
+	
 	print_debug("[Orchestrator] Beginning floor instantiation...")
 	instantiate_floor()
 	print_debug("[Orchestrator] Floor instantiation finished.")
+	
 	print_debug("[Orchestrator] Spawning in PlayerController...")
 	instantiate_player_controller()
 	print_debug("[Orchestrator] PlayerController instantiation finished.")
+	
+	print_debug("[Orchestrator] Spawning UI...")
+	spawn_ui()
+	print_debug("[Orchestrator] UI spawned.")
 	
 	print_debug("[Orchestrator] Spawning two test enemies...")
 	instantiate_enemy(Vector2i(1, 1))
@@ -106,6 +120,12 @@ func _on_enemy_turn_triggered():
 	# After entities are done taking their turn, pass turn back to player.
 	player.take_turn()
 
+func _on_ui_attack_prepared(target_pos: Vector2i):
+	if target_pos in live_entities.values():
+			var target_ent = live_entities.find_key(target_pos)
+			if (target_ent.fightable != null):
+				player.attack(target_ent)
+				player.end_turn()
 
 
 func _on_turn_requested(entity: Entity, pos: Vector2i, action: String):
