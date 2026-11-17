@@ -2,12 +2,10 @@ class_name AttackButton
 extends Button
 
 const tile_highlight = preload("res://scenes/ui/tile_highlight.tscn")
-@onready
-var hand: HandController = $"../../PlayerUIBottom/DrawnCardsContainer"
+
 @onready
 var ui_root: Control = $"../.."
-@onready
-var game_root: Node3D = $"../../.."
+
 @onready
 var player: PlayerController
 
