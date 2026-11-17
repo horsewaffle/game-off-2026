@@ -13,6 +13,9 @@ signal request_information(origin: Node3D, packet: Dictionary)
 # Only really useful for the player, but...
 var can_take_action = false
 
+# Set by Orchestrator if Entity starts a turn next to a Fightable Entity, useful for combat logic
+var is_adjacent_to_fightable = false
+
 var on_interact: Callable = Callable()
 var fightable: Fightable = null
 var searchable: Searchable = null
@@ -54,5 +57,5 @@ func move(target_pos: Vector2i):
 func interact(_pos: Vector2i, _pos_entity: Entity = null):
 	pass
 	
-func attack(_entity: Entity):
+func attack(entity: Entity):
 	pass

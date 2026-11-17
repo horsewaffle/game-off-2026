@@ -2,4 +2,15 @@ extends Node3D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	pass
+	
+	var player_registered: bool = board.register_entity(player)
+	
+	if not player_registered:
+		push_error("Failed to register PlayerCharacter with Board")
+	
+	var enemy_registered: bool = board.register_entity(enemy)
+	
+	if not enemy_registered:
+		push_error("Failed to register Enemy with Board")
+	
+	enemy.xp_awarded.connect(player.gain_xp)

@@ -6,6 +6,7 @@ var health: int
 var attack: int
 var defence: int
 var mult: float
+var xp: int
 
 signal health_updated(new_health: int)
 signal dead
@@ -14,13 +15,15 @@ func _init(
 	resHealth: int,
 	resAttack: int,
 	resDefence: int,
-	resMult: float
+	resMult: float,
+	resXp: int
 	) -> void:
 	self.max_health = resHealth
 	self.health = max_health
 	self.attack = resAttack
 	self.defence = resDefence
 	self.mult = resMult
+	self.xp = resXp
 
 func death_check() -> bool:
 	return self.health <= 0

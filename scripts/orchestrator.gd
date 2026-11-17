@@ -70,10 +70,12 @@ func instantiate_enemy(pos: Vector2i):
 # Wrapper function for instantiating the PlayerController
 func instantiate_player_controller():
 	player = player_scene.instantiate()
+	player.init_stats()
 	add_child(player)
 	live_entities[player] = Vector2i(0,0)
 	player.turn_requested.connect(_on_turn_requested)
 	player.enemy_turn_triggered.connect(_on_enemy_turn_triggered)
+
 
 # Currently, the Orchestrator spawns in a Floor when added to the scene for testing. Eventually,
 # this should stop being the case - the Orchestrator will be triggered by the game starting
@@ -117,6 +119,8 @@ func _on_turn_requested(entity: Entity, pos: Vector2i, action: String):
 			else:
 				entity.handle_turn_response(result, pos, result.occupant)
 				entity.end_turn()
+	
+	entity.is_adjacent_to_fightable = is_adjacent_to_fightable(entity)
 			
 			
 func process_move(entity: Entity, target: Vector2i) -> MoveResult:
@@ -135,8 +139,18 @@ func process_move(entity: Entity, target: Vector2i) -> MoveResult:
 
 func is_in_bounds(grid_position: Vector2i) -> bool:
 	return (
-		grid_position.x >= 0
+		grid_position.x >= -10
 		and grid_position.x <= 10
-		and grid_position.y >= 0
+		and grid_position.y >= -10
 		and grid_position.y <= 10
 	)
+
+func is_adjacent_to_fightable(entity: Entity):
+	var entity_pos = live_entities[entity]
+	for offset in [Vector2i(1,0), Vector2i(0,1), Vector2i(-1,0), Vector2i(0,-1)]:
+		var query_pos = entity_pos + offset
+		if query_pos in live_entities.values():
+			var query_entity = live_entities.find_key(query_pos)
+			if (query_entity.fightable != null):
+				return true
+	return false
