@@ -63,9 +63,6 @@ func _input(_event) -> void:
 			
 		
 		can_take_action = false
-
-		# Minimum turn time so players don't accidentally spam
-		await get_tree().create_timer(0.3).timeout
 		
 		player_turn_taken.emit()
 
