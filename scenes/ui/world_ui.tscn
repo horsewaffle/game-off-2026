@@ -125,6 +125,34 @@ layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 8
 
+[node name="StatsVBox" type="VBoxContainer" parent="PlayerUIBottom/PlayerStatsContainer" unique_id=2088510886]
+custom_minimum_size = Vector2(464, 120)
+custom_maximum_size = Vector2(464, 120)
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -2.0
+offset_top = -29.0
+offset_right = 2.0
+offset_bottom = 29.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="HealthBar" type="ProgressBar" parent="PlayerUIBottom/PlayerStatsContainer/StatsVBox" unique_id=1833923246]
+custom_minimum_size = Vector2(464, 27)
+custom_maximum_size = Vector2(464, -1)
+layout_mode = 2
+show_percentage = false
+
+[node name="XPBar" type="ProgressBar" parent="PlayerUIBottom/PlayerStatsContainer/StatsVBox" unique_id=953420722]
+custom_minimum_size = Vector2(464, 27)
+custom_maximum_size = Vector2(464, -1)
+layout_mode = 2
+show_percentage = false
+
 [node name="AttackButtonPanel" type="Panel" parent="." unique_id=1065275575]
 layout_mode = 1
 anchors_preset = 3

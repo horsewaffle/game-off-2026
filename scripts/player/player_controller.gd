@@ -68,7 +68,8 @@ func attack(entity: Entity):
 		print("I dealt ", self.fightable.attack, " to ", entity)
 
 func take_turn():
-	if (is_adjacent_to_fightable):
+	print("take turn")
+	if (adjacent_fightables.size() > 0):
 		print("Adjacent to fightable, trigger combat UI")
 	can_take_action = true
 	

@@ -102,10 +102,9 @@ func _ready():
 	spawn_ui()
 	print_debug("[Orchestrator] UI spawned.")
 	
-	print_debug("[Orchestrator] Spawning two test enemies...")
+	print_debug("[Orchestrator] Spawning one test Enemy...")
 	instantiate_enemy(Vector2i(1, 1))
-	instantiate_enemy(Vector2i(1, 3))
-	print_debug("[Orchestrator] Two enemies spawned.")
+	print_debug("[Orchestrator] One enemy spawned.")
 	floor_readied.emit()
 	
 	player.take_turn()
@@ -114,10 +113,12 @@ func _on_enemy_turn_triggered():
 	
 	# Let all non-player entities take their turn...
 	for entity: Entity in get_tree().get_nodes_in_group("turn_listener"):
+		entity.adjacent_fightables = get_adjacent_fightables(entity)
 		await entity.take_turn()
 		await get_tree().create_timer(0.3).timeout
 	
 	# After entities are done taking their turn, pass turn back to player.
+	player.adjacent_fightables = get_adjacent_fightables(player)
 	player.take_turn()
 
 func _on_ui_attack_prepared(target_pos: Vector2i):
@@ -139,8 +140,6 @@ func _on_turn_requested(entity: Entity, pos: Vector2i, action: String):
 			else:
 				entity.handle_turn_response(result, pos, result.occupant)
 				entity.end_turn()
-	
-	entity.is_adjacent_to_fightable = is_adjacent_to_fightable(entity)
 			
 			
 func process_move(entity: Entity, target: Vector2i) -> MoveResult:
@@ -165,12 +164,15 @@ func is_in_bounds(grid_position: Vector2i) -> bool:
 		and grid_position.y <= 10
 	)
 
-func is_adjacent_to_fightable(entity: Entity):
+func get_adjacent_fightables(entity: Entity) -> Array[Entity]:
+	var adj_fightables_list: Array[Entity] = []
 	var entity_pos = live_entities[entity]
 	for offset in [Vector2i(1,0), Vector2i(0,1), Vector2i(-1,0), Vector2i(0,-1)]:
 		var query_pos = entity_pos + offset
 		if query_pos in live_entities.values():
 			var query_entity = live_entities.find_key(query_pos)
-			if (query_entity.fightable != null):
-				return true
-	return false
+			if (entity is PlayerController and query_entity.fightable != null):
+				adj_fightables_list.append(query_entity) 
+			elif query_entity is PlayerController:
+				adj_fightables_list.append(query_entity)
+	return adj_fightables_list
