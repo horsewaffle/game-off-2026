@@ -47,13 +47,11 @@ func handle_turn_response(result, pos, pos_entity: Entity = null):
 			interact(pos, pos_entity)
 			move(pos)
 		MoveResult.MoveEnum.INTERACT:
-			print("INTERACT")
 			interact(pos, pos_entity)
 		MoveResult.MoveEnum.FAIL:
 			pass
 	
 func interact(pos: Vector2i, pos_entity: Entity = null):
-	print("interact")
 	if pos_entity == null:
 		pass
 		
@@ -68,9 +66,6 @@ func attack(entity: Entity):
 		print("I dealt ", self.fightable.attack, " to ", entity)
 
 func take_turn():
-	print("take turn")
-	if (adjacent_fightables.size() > 0):
-		print("Adjacent to fightable, trigger combat UI")
 	can_take_action = true
 	
 func end_turn():
