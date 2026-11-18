@@ -63,5 +63,6 @@ func _on_selected_cards_updated(selected_cards: Array[Card]):
 	player.selected_cards = selected_cards
 
 func _on_card_drawn():
-	var drawn_card = player.deck.draw_one()
-	deck_button.draw_card(drawn_card)
+	if hand.get_child_count() < player.max_hand_size:
+		var drawn_card = player.deck.draw_one()
+		deck_button.draw_card(drawn_card)

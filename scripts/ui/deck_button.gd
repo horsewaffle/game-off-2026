@@ -2,8 +2,6 @@ extends Button
 
 signal card_drawn
 
-const card: PackedScene = preload("res://scenes/ui/card_ui.tscn")
-
 @onready
 var hand: Panel = get_node("../../DrawnCardsContainer")
 

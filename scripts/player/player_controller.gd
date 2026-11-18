@@ -12,6 +12,8 @@ var selected_cards: Array[Card]
 # Deck the player has currently.
 var deck: Deck
 
+var max_hand_size: int = 5
+
 var xp: int
 
 # Called by Orchestrator after instantiation, initialises player stats
