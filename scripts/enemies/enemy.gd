@@ -10,6 +10,8 @@ func _ready() -> void:
 	fightable.dead.connect(_on_death)
 	$"HealthBar".initialise_health_bar()
 	
+	self.on_interact = on_interact_dead
+	
 func _on_death() -> void:
 	print(self, " died!")
 	xp_awarded.emit(fightable.xp)
@@ -18,6 +20,9 @@ func _on_death() -> void:
 	self.walkable = true
 	remove_from_group("turn_listener")
 	
+func on_interact_dead():
+	return searchable
+
 func take_turn():
 	
 	if adjacent_fightables.size() > 0:
