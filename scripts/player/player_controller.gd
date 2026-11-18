@@ -6,6 +6,9 @@ signal enemy_turn_triggered
 # Reference back to the Orchestrator for receiving signals
 var orchestrator: Orchestrator
 
+# Array of cards selected for use in attack
+var selected_cards: Array[Card]
+
 var xp: int
 
 # Called by Orchestrator after instantiation, initialises player stats
@@ -62,8 +65,9 @@ func interact(pos: Vector2i, pos_entity: Entity = null):
 
 func attack(entity: Entity):
 	if entity.fightable != null:
-		entity.fightable.receive_damage(self.fightable.attack)
-		print("I dealt ", self.fightable.attack, " to ", entity)
+		var final_attack = AttackCalculator.calculate(self.fightable.attack, selected_cards)
+		entity.fightable.receive_damage(final_attack)
+		print("I dealt ", final_attack, " to ", entity)
 
 func take_turn():
 	can_take_action = true

@@ -9,6 +9,9 @@ var health_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/He
 @onready
 var xp_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/XPBar"
 
+@onready
+var hand: HandController = $"PlayerUIBottom/DrawnCardsContainer"
+
 # TODO: Better way to propagate this than just passing it up?
 signal ui_attack_prepared(target_pos: Vector2i)
 
@@ -21,6 +24,8 @@ func init_stats(player_ref: PlayerController):
 	xp_bar.value = player.fightable.xp
 	
 	player.fightable.health_updated.connect(_on_health_update)
+	
+	hand.selected_cards_updated.connect(_on_selected_cards_updated)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -46,3 +51,6 @@ func _on_enemy_turn_triggered():
 func _on_health_update(new_health: int):
 	health_bar.max_value = player.fightable.max_health
 	health_bar.value = new_health
+
+func _on_selected_cards_updated(selected_cards: Array[Card]):
+	player.selected_cards = selected_cards

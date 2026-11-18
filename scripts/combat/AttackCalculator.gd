@@ -1,12 +1,11 @@
 class_name AttackCalculator
 extends RefCounted
 
-signal calculation_complete(damage: int)
-
-static func calculate(base_damage: int, cards: Array) -> void:
+static func calculate(base_damage: int, cards: Array) -> int:
 	var damage: int = clampi(base_damage, 0, 255)
 	
-	for card in cards:
+	for card: Card in cards:
 		damage = clampi(card.activate(damage), 0, 255) # clamping to 8-bit for now
+		print("damage modified to ", damage)
 	
-	calculation_complete.emit(damage)
+	return damage

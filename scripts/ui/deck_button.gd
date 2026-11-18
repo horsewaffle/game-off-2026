@@ -30,5 +30,5 @@ func update_card_poses_in_hand():
 		iter_card.target_pos.y = -40
 		
 	
-static func card_on_activate():
-	pass
+static func card_on_activate(damage: int):
+	return damage + 1
