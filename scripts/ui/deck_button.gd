@@ -1,5 +1,7 @@
 extends Button
 
+signal card_drawn
+
 const card: PackedScene = preload("res://scenes/ui/card_ui.tscn")
 
 @onready
@@ -15,11 +17,17 @@ func _process(_delta: float) -> void:
 	pass
 
 func _pressed() -> void:
-	var drawn_card = Card.new("card_id", "card_name", "card_desc", card_on_activate)
-	var drawn_card_ui = CardUI.card_ui_builder("test", "1", "R", drawn_card)
+	card_drawn.emit()
+
+func draw_card(card: Card):
+	if card == null:
+		return
+	var card_info = CardFunctions.get_card_info(card.id)
+	# TODO: Return dict with keys rather than array
+	var drawn_card_ui = CardUI.card_ui_builder(card_info[0], card_info[1], card_info[2], card)
 	hand.add_card_to_hand(drawn_card_ui)
 	update_card_poses_in_hand()
-	
+
 func update_card_poses_in_hand():
 	for iter_card in hand.get_children():
 		var hand_ratio = 0.5

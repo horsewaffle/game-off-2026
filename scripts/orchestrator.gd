@@ -76,6 +76,16 @@ func instantiate_player_controller():
 	live_entities[player] = Vector2i(0,0)
 	player.turn_requested.connect(_on_turn_requested)
 	player.enemy_turn_triggered.connect(_on_enemy_turn_triggered)
+	
+func instantiate_starter_deck():
+	var card = Card.new("bsr1", "Bitshift Right 1", "test", CardFunctions.bsr1)
+	player.deck.add_to_roster(card)
+	card = Card.new("bsr2", "Bitshift Right 2", "test", CardFunctions.bsr2)
+	player.deck.add_to_roster(card)
+	card = Card.new("bm81", "Bitmask 8 =1", "test", CardFunctions.bm81)
+	player.deck.add_to_roster(card)
+	
+	player.deck.reset_deck()
 
 # Helper function for listening to UI signals
 func spawn_ui():
@@ -97,6 +107,10 @@ func _ready():
 	print_debug("[Orchestrator] Spawning in PlayerController...")
 	instantiate_player_controller()
 	print_debug("[Orchestrator] PlayerController instantiation finished.")
+	
+	print_debug("[Orchestrator] Giving the player some cards...")
+	instantiate_starter_deck()
+	print_debug("[Orchestrator] Gave the player some cards.")
 	
 	print_debug("[Orchestrator] Spawning UI...")
 	spawn_ui()

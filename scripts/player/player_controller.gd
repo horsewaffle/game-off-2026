@@ -9,6 +9,9 @@ var orchestrator: Orchestrator
 # Array of cards selected for use in attack
 var selected_cards: Array[Card]
 
+# Deck the player has currently.
+var deck: Deck
+
 var xp: int
 
 # Called by Orchestrator after instantiation, initialises player stats
@@ -16,6 +19,7 @@ var xp: int
 func init_stats():
 	# (max health, attack, defence, mult, xp)
 	self.fightable = Fightable.new(200, 5, 10, 2.0, 0)
+	deck = Deck.new([])
 
 
 func _input(_event) -> void:
