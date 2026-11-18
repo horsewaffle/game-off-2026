@@ -1,5 +1,7 @@
 class_name CardFunctions
 
+const MAX_BIT: int = 8
+
 static func bsr1(damage: int):
 	return damage * 2
 
@@ -7,11 +9,9 @@ static func bsr2(damage: int):
 	return damage * 4
 	
 static func bm81(damage:int):
-	var out = String.num_int64(damage, 2).pad_zeros(8)
+	var out = String.num_int64(damage, 2).pad_zeros(MAX_BIT)
 	var length = out.length()
-	print(out)
 	out[length-8] = "1"
-	print(out)
 	return out.bin_to_int()
 
 static func get_card_info(card_id: String):
