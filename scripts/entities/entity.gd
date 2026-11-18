@@ -13,8 +13,8 @@ signal request_information(origin: Node3D, packet: Dictionary)
 # Only really useful for the player, but...
 var can_take_action = false
 
-# Set by Orchestrator if Entity starts a turn next to a Fightable Entity, useful for combat logic
-var is_adjacent_to_fightable = false
+# Set by Orchestrator every turn with list of valid attack targets
+var adjacent_fightables: Array[Entity] = []
 
 var on_interact: Callable = Callable()
 var fightable: Fightable = null

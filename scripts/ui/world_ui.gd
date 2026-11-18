@@ -3,12 +3,24 @@ extends Control
 var player: PlayerController
 var attack_button
 
+@onready
+var health_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/HealthBar"
+
+@onready
+var xp_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/XPBar"
+
 # TODO: Better way to propagate this than just passing it up?
 signal ui_attack_prepared(target_pos: Vector2i)
 
 func init_stats(player_ref: PlayerController):
 	player = player_ref
 	player.enemy_turn_triggered.connect(_on_enemy_turn_triggered)
+	
+	health_bar.max_value = player.fightable.max_health
+	health_bar.value = player.fightable.health
+	xp_bar.value = player.fightable.xp
+	
+	player.fightable.health_updated.connect(_on_health_update)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -30,3 +42,7 @@ func _on_attack_button_pressed():
 
 func _on_enemy_turn_triggered():
 	attack_button.on_player_turn_taken()
+	
+func _on_health_update(new_health: int):
+	health_bar.max_value = player.fightable.max_health
+	health_bar.value = new_health
