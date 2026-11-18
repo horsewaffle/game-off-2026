@@ -1,0 +1,17 @@
+[gd_scene format=3 uid="uid://sfqupeecu2gv"]
+
+[ext_resource type="Script" uid="uid://cbmes3pgcbs1c" path="res://scripts/player/player_controller.gd" id="1_bhjyr"]
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_hrkyq"]
+
+[node name="PlayerCharacter" type="Node3D" unique_id=609583536]
+script = ExtResource("1_bhjyr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="." unique_id=166177047]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0.5, 0)
+mesh = SubResource("CapsuleMesh_hrkyq")
+skeleton = NodePath("")
+
+[node name="MainCamera" type="Camera3D" parent="." unique_id=419267902]
+transform = Transform3D(1, 0, 0, 0, 0.64278764, 0.76604444, 0, -0.76604444, 0.64278764, 0, 3, 2)
+current = true

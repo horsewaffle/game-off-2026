@@ -27,3 +27,5 @@ func _ready() -> void:
 	
 func _on_calculation_complete(damage: int) -> void:
 	print("final attack damage = ", damage)
+	
+	enemy.xp_awarded.connect(player.gain_xp)
