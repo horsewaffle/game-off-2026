@@ -64,7 +64,7 @@ func move(target_pos: Vector2i):
 	camera_pos_updated.emit(target_pos)
 	can_take_action = false
 
-	super(target_pos)
+	await super(target_pos)
 
 func interact(pos: Vector2i, pos_entity: Entity = null):
 	if pos_entity == null:
