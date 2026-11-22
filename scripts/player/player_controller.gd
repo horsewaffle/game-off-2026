@@ -2,11 +2,15 @@ class_name PlayerController
 extends Entity
 
 signal enemy_turn_triggered
+signal camera_pos_updated(target_pos: Vector2i)
 
 # Reference back to the Orchestrator for receiving signals
 var orchestrator: Orchestrator
 
 var xp: int
+
+@onready
+var rotation_container: Node3D = $PlayerRotationContainer
 
 # Called by Orchestrator after instantiation, initialises player stats
 # and passes reference to Orchestrator
@@ -26,12 +30,16 @@ func _input(_event) -> void:
 		# I wonder what would happen if you pressed two actions at the EXACT
 		# same time?
 		if Input.is_action_just_pressed("MOVE_UP"):
+			rotation_container.set_rotation(Vector3(0, 0, 0))
 			request_tile(Vector2i(0, -1))
 		if Input.is_action_just_pressed("MOVE_DOWN"):
+			rotation_container.set_rotation(Vector3(0, PI, 0))
 			request_tile(Vector2i(0, 1))
 		if Input.is_action_just_pressed("MOVE_LEFT"):
+			rotation_container.set_rotation(Vector3(0, PI / 2, 0))
 			request_tile(Vector2i(-1, 0))
 		if Input.is_action_just_pressed("MOVE_RIGHT"):
+			rotation_container.set_rotation(Vector3(0, 3 * PI / 2, 0))
 			request_tile(Vector2i(1, 0))
 
 func request_tile(offset_pos: Vector2i):
@@ -50,7 +58,19 @@ func handle_turn_response(result, pos, pos_entity: Entity = null):
 			interact(pos, pos_entity)
 		MoveResult.MoveEnum.FAIL:
 			pass
+			
+func move(target_pos: Vector2i):
 	
+	camera_pos_updated.emit(target_pos)
+	can_take_action = false
+	
+	var anim_player = find_child("AnimationPlayer")
+	
+	anim_player.play("move")
+	await anim_player.animation_finished
+	anim_player.stop()
+	super(target_pos)
+
 func interact(pos: Vector2i, pos_entity: Entity = null):
 	if pos_entity == null:
 		pass
