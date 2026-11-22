@@ -62,11 +62,16 @@ var map_generator = MapGenerator.new()
 func instantiate_floor():
 	var dungeon = map_generator.generate_map(40, "■", " ", 1, 20)
 	var floor_instance = floor_scene.instantiate()
-	
+
 	add_child(floor_instance)
 	floor_instance.get_node("GridMap").build(dungeon["grid"])
 	
 	var grid_map: GridMap = floor_instance.get_node("GridMap")
+	
+	# Offset the actual map such that the nodes in the grid are in the middle of
+	# their corresponding tiles.
+	grid_map.position += Vector3(0.5, 0, 0.5)
+	
 	floor_readied.emit()
 
 # Wrapper function for spawning an Entity into the current Floor.
