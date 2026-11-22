@@ -10,6 +10,7 @@ script = ExtResource("1_10dcs")
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=489857694]
 transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+visible = false
 material_override = ExtResource("2_rcshh")
 mesh = SubResource("PlaneMesh_hrkyq")
 surface_material_override/0 = ExtResource("2_rcshh")

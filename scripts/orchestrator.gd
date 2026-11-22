@@ -37,11 +37,16 @@ const enemy_scene = preload("res://scenes/entities/enemy.tscn")
 
 const ui_scene = preload("res://scenes/ui/world_ui.tscn")
 
+const floor_scene = preload("res://scenes/floor.tscn")
+
 # Reference to the current floor the game is on.
 var current_floor: Node3D
 
 # Reference to all currently instantiated Entities and positions - this includes the PlayerController!
 var live_entities: Dictionary[Entity, Vector2i]
+
+# Reference to the map generating algorithm
+var map_generator = MapGenerator.new()
 
 
 # ||=========================|| #
@@ -55,7 +60,14 @@ var live_entities: Dictionary[Entity, Vector2i]
 # - Spawn the PlayerController onto the Floor
 # - Emit a floor_readied signal when done, to signal beginning of gameplay
 func instantiate_floor():
-	pass
+	var dungeon = map_generator.generate_map(40, "■", " ", 1, 20)
+	var floor_instance = floor_scene.instantiate()
+	
+	add_child(floor_instance)
+	floor_instance.get_node("GridMap").build(dungeon["grid"])
+	
+	var grid_map: GridMap = floor_instance.get_node("GridMap")
+	floor_readied.emit()
 
 # Wrapper function for spawning an Entity into the current Floor.
 func instantiate_entity():

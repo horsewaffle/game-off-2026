@@ -1,0 +1,9 @@
+[gd_scene format=3 uid="uid://c67y5as21ns3k"]
+
+[sub_resource type="BoxMesh" id="BoxMesh_sfeay"]
+size = Vector3(1, 0.1, 1)
+
+[node name="DungeonTiles" type="Node3D" unique_id=226099409]
+
+[node name="FloorTile" type="MeshInstance3D" parent="." unique_id=106094876]
+mesh = SubResource("BoxMesh_sfeay")
