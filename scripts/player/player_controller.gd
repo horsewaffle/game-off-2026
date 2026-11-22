@@ -63,12 +63,7 @@ func move(target_pos: Vector2i):
 	
 	camera_pos_updated.emit(target_pos)
 	can_take_action = false
-	
-	var anim_player = find_child("AnimationPlayer")
-	
-	anim_player.play("move")
-	await anim_player.animation_finished
-	anim_player.stop()
+
 	super(target_pos)
 
 func interact(pos: Vector2i, pos_entity: Entity = null):

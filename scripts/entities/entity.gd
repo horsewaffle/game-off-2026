@@ -52,6 +52,13 @@ func handle_turn_response(result, pos, pos_entity: Entity = null):
 			pass
 
 func move(target_pos: Vector2i):
+	
+	var anim_player = find_child("AnimationPlayer")
+	
+	if anim_player != null:
+		anim_player.play("move")
+		await anim_player.animation_finished
+		anim_player.stop()
 	self.position = Vector3(target_pos.x, 0, target_pos.y)
 
 func interact(_pos: Vector2i, _pos_entity: Entity = null):

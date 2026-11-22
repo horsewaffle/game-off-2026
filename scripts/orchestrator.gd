@@ -66,7 +66,7 @@ func instantiate_enemy(pos: Vector2i):
 	var new_enemy: Entity = enemy_scene.instantiate()
 	add_child(new_enemy)
 	live_entities[new_enemy] = pos
-	new_enemy.position = Vector3i(pos.x, 0, pos.y)
+	new_enemy.position = Vector3(pos.x, 0, pos.y)
 	new_enemy.turn_requested.connect(_on_turn_requested)
 
 # Wrapper function for instantiating the PlayerController
