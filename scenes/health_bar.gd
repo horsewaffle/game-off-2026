@@ -3,7 +3,7 @@ extends ProgressBar
 var camera: Camera3D
 
 @onready
-var parent_enemy: Enemy = get_parent()
+var parent_enemy: Enemy = get_parent().get_parent()
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -22,8 +22,8 @@ func initialise_health_bar() -> void:
 	visible = parent_enemy.fightable.health != parent_enemy.fightable.max_health
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	var screen_pos = camera.unproject_position(get_parent().global_position + Vector3(0, 1.5, 0)) 
+func _process(_delta: float) -> void:
+	var screen_pos = camera.unproject_position(get_parent().global_position + Vector3(0, 0.75, 0)) 
 	global_position = screen_pos
 	global_position += Vector2(-get_rect().size.x / 2, 0)
 

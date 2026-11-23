@@ -32,6 +32,7 @@ signal turn_response(fulfilled: bool, packet: Dictionary)
 # Reference to the player controller. Should be empty until the Orchestrator instantiates the player
 const player_scene = preload("res://scenes/entities/player_character.tscn")
 var player
+var player_camera: Camera3D = null
 
 const enemy_scene = preload("res://scenes/entities/enemy.tscn")
 
@@ -89,7 +90,7 @@ func instantiate_enemy(pos: Vector2i):
 	var new_enemy: Entity = enemy_scene.instantiate()
 	add_child(new_enemy)
 	live_entities[new_enemy] = pos
-	new_enemy.position = Vector3i(pos.x, 0, pos.y)
+	new_enemy.position = Vector3(pos.x, 0, pos.y)
 	new_enemy.turn_requested.connect(_on_turn_requested)
 
 # Wrapper function for instantiating the PlayerController
@@ -119,6 +120,12 @@ func instantiate_starter_deck():
 	
 	player.deck.reset_deck()
 
+	# Add camera separately, allowing for rotation-independent smooth movement
+	player_camera = Camera3D.new()
+	player_camera.set_script(load("res://scripts/player/player_camera.gd"))
+	add_child(player_camera)
+	player_camera.init_player_camera(player)
+	
 # Helper function for listening to UI signals
 func spawn_ui():
 	var ui_instance = ui_scene.instantiate()
@@ -181,10 +188,10 @@ func _on_turn_requested(entity: Entity, pos: Vector2i, action: String):
 		"move":
 			result = process_move(entity, pos)
 			if result.result == MoveResult.MoveEnum.SUCCESS:
-				entity.move(pos)
+				await entity.move(pos)
 				entity.end_turn()
 			else:
-				entity.handle_turn_response(result, pos, result.occupant)
+				await entity.handle_turn_response(result, pos, result.occupant)
 				entity.end_turn()
 			
 			
