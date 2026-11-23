@@ -19,7 +19,7 @@ func run_card_test():
 	assert(card_1.name == test_name, "Name does not match")
 	assert(card_1.description == test_desc, "Description does not match")
 
-	card_1.activate()
+	card_1.activate(0)
 	assert(test_counter == 1, "Callback function does not activate")
 	print("[CARD INIT TEST PASS]")
 

@@ -1,13 +1,21 @@
 extends Control
 
 var player: PlayerController
-var attack_button
 
 @onready
 var health_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/HealthBar"
 
 @onready
 var xp_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/XPBar"
+
+@onready
+var hand: HandController = $"PlayerUIBottom/DrawnCardsContainer"
+
+@onready
+var attack_button = $AttackButtonPanel/AttackButton
+
+@onready
+var deck_button = $"PlayerUIBottom/DeckContainer/Button"
 
 # TODO: Better way to propagate this than just passing it up?
 signal ui_attack_prepared(target_pos: Vector2i)
@@ -21,12 +29,16 @@ func init_stats(player_ref: PlayerController):
 	xp_bar.value = player.fightable.xp
 	
 	player.fightable.health_updated.connect(_on_health_update)
+	
+	hand.selected_cards_updated.connect(_on_selected_cards_updated)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	attack_button = $AttackButtonPanel/AttackButton
 	attack_button.ui_attack_prepared.connect(_on_ui_attack_prepared)
 	attack_button.attack_button_pressed.connect(_on_attack_button_pressed)
+	
+	deck_button.card_drawn.connect(_on_card_drawn)
+	
 
 	
 func _process(_delta):
@@ -46,3 +58,11 @@ func _on_enemy_turn_triggered():
 func _on_health_update(new_health: int):
 	health_bar.max_value = player.fightable.max_health
 	health_bar.value = new_health
+
+func _on_selected_cards_updated(selected_cards: Array[Card]):
+	player.selected_cards = selected_cards
+
+func _on_card_drawn():
+	if hand.get_child_count() < player.max_hand_size:
+		var drawn_card = player.deck.draw_one()
+		deck_button.draw_card(drawn_card)

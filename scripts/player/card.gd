@@ -12,7 +12,7 @@ func _init(card_id, card_name, card_desc, card_on_activate) -> void:
 	self.description = card_desc
 	self.on_activate = card_on_activate
 
-func activate():
-	on_activate.call()
+func activate(damage: int):
+	return on_activate.call(damage)
 
 	
