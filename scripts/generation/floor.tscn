@@ -1,0 +1,11 @@
+[gd_scene format=3 uid="uid://d1ps7ib8f66wb"]
+
+[ext_resource type="Script" uid="uid://k3m38v48qp6o" path="res://scripts/generation/grid_map.gd" id="1_2pvvq"]
+[ext_resource type="MeshLibrary" uid="uid://ck3f6h5812hnq" path="res://dungeon_tiles.tres" id="1_elt7b"]
+
+[node name="Floor" type="Node3D" unique_id=1688945652]
+
+[node name="GridMap" type="GridMap" parent="." unique_id=675676705]
+mesh_library = ExtResource("1_elt7b")
+cell_size = Vector3(1, 1, 1)
+script = ExtResource("1_2pvvq")
