@@ -9,14 +9,15 @@
 script = ExtResource("1_10dcs")
 
 [node name="Floor" type="MeshInstance3D" parent="." unique_id=489857694]
-transform = Transform3D(10, 0, 0, 0, 10, 0, 0, 0, 10, 0, 0, 0)
+visible = false
 material_override = ExtResource("2_rcshh")
 mesh = SubResource("PlaneMesh_hrkyq")
 surface_material_override/0 = ExtResource("2_rcshh")
 
 [node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=821788413]
-transform = Transform3D(1, 0, 0, 0, 0.9018956, 0.4319542, 0, -0.4319542, 0.9018956, 0, 2.5431838, 4.861645)
+transform = Transform3D(1, 0, 0, 0, -0.047106393, 0.99888986, 0, -0.99888986, -0.047106393, 0, 25.897024, 4.861645)
 light_color = Color(1, 0.7118222, 0.49673498, 1)
 light_energy = 11.729
 shadow_enabled = true
-spot_range = 10.801
+spot_range = 79.236
+spot_angle = 47.71

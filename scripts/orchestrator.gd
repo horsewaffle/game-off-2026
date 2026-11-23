@@ -37,11 +37,21 @@ const enemy_scene = preload("res://scenes/entities/enemy.tscn")
 
 const ui_scene = preload("res://scenes/ui/world_ui.tscn")
 
+const floor_scene = preload("res://scenes/floor.tscn")
+
 # Reference to the current floor the game is on.
 var current_floor: Node3D
 
+# Grid of floor/wall tiles used to determine if a tile is traversible.
+var tile_grid: Array
+# References to all rooms in the generated floor, primarily for spawning player.
+var rooms: Array
+
 # Reference to all currently instantiated Entities and positions - this includes the PlayerController!
 var live_entities: Dictionary[Entity, Vector2i]
+
+# Reference to the map generating algorithm
+var map_generator = MapGenerator.new()
 
 
 # ||=========================|| #
@@ -55,7 +65,21 @@ var live_entities: Dictionary[Entity, Vector2i]
 # - Spawn the PlayerController onto the Floor
 # - Emit a floor_readied signal when done, to signal beginning of gameplay
 func instantiate_floor():
-	pass
+	var dungeon = map_generator.generate_map(40, "■", " ", 1, 20)
+	var floor_instance = floor_scene.instantiate()
+	tile_grid = dungeon["grid"]
+	rooms = dungeon["rooms"]
+	
+	add_child(floor_instance)
+	floor_instance.get_node("GridMap").build(tile_grid)
+	
+	var grid_map: GridMap = floor_instance.get_node("GridMap")
+	
+	# Offset the actual map such that the nodes in the grid are in the middle of
+	# their corresponding tiles.
+	grid_map.position += Vector3(0.5, 0, 0.5)
+	
+	floor_readied.emit()
 
 # Wrapper function for spawning an Entity into the current Floor.
 func instantiate_entity():
@@ -73,9 +97,17 @@ func instantiate_player_controller():
 	player = player_scene.instantiate()
 	player.init_stats()
 	add_child(player)
-	live_entities[player] = Vector2i(0,0)
 	player.turn_requested.connect(_on_turn_requested)
 	player.enemy_turn_triggered.connect(_on_enemy_turn_triggered)
+	
+	# Spawn player in a random room
+	var spawn_room = rooms.pick_random()
+	print("Spawning player at room: ", spawn_room)
+	var spawn_x = spawn_room["x"] - 19
+	var spawn_y = spawn_room["y"] - 19
+	
+	player.position = Vector3(spawn_x, 0, spawn_y)
+	live_entities[player] = Vector2i(spawn_x,spawn_y)
 	
 func instantiate_starter_deck():
 	var card = Card.new("bsr1", "Bitshift Right 1", "test", CardFunctions.bsr1)
@@ -171,11 +203,15 @@ func process_move(entity: Entity, target: Vector2i) -> MoveResult:
 	return MoveResult.new(MoveResult.MoveEnum.SUCCESS, target)
 
 func is_in_bounds(grid_position: Vector2i) -> bool:
+	# Grid array counts from 0->40, whereas co-ords count from -20->20
+	var offset_position = grid_position + Vector2i(19, 19)
+	if (
+		tile_grid.size() <= offset_position.y 
+		or tile_grid[offset_position.y].size() <= offset_position.x
+	):
+		return false
 	return (
-		grid_position.x >= -10
-		and grid_position.x <= 10
-		and grid_position.y >= -10
-		and grid_position.y <= 10
+		tile_grid[offset_position.y][offset_position.x] == " "
 	)
 
 func get_adjacent_fightables(entity: Entity) -> Array[Entity]:
