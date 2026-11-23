@@ -29,6 +29,10 @@ signal turn_response(fulfilled: bool, packet: Dictionary)
 # ||  GAME SPACE VARIABLES   || #
 # ||=========================|| #
 
+# Used for fade-in at scene instantiation
+var fade: bool = true
+var fade_percent: float = 1
+
 # Reference to the player controller. Should be empty until the Orchestrator instantiates the player
 const player_scene = preload("res://scenes/entities/player_character.tscn")
 var player
@@ -37,6 +41,7 @@ var player_camera: Camera3D = null
 const enemy_scene = preload("res://scenes/entities/enemy.tscn")
 
 const ui_scene = preload("res://scenes/ui/world_ui.tscn")
+var ui_instance
 
 const floor_scene = preload("res://scenes/floor.tscn")
 
@@ -128,7 +133,7 @@ func instantiate_starter_deck():
 	
 # Helper function for listening to UI signals
 func spawn_ui():
-	var ui_instance = ui_scene.instantiate()
+	ui_instance = ui_scene.instantiate()
 	add_child(ui_instance)
 	ui_instance.init_stats(player)
 	ui_instance.ui_attack_prepared.connect(_on_ui_attack_prepared)
@@ -153,6 +158,7 @@ func _ready():
 	
 	print_debug("[Orchestrator] Spawning UI...")
 	spawn_ui()
+	ui_instance.trigger_fade_in()
 	print_debug("[Orchestrator] UI spawned.")
 	
 	print_debug("[Orchestrator] Spawning one test Enemy...")

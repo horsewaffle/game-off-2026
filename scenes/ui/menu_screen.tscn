@@ -1,0 +1,87 @@
+[gd_scene format=3 uid="uid://bwip5w8dp0mq2"]
+
+[ext_resource type="Texture2D" uid="uid://8p0xgw2q6f0w" path="res://assets/sprites/menu-bg.png" id="1_anq1i"]
+[ext_resource type="Texture2D" uid="uid://deattpex2iwjs" path="res://assets/sprites/logo.png" id="1_py1kr"]
+[ext_resource type="Script" uid="uid://0yaxdqdbnvg8" path="res://scenes/ui/menu_controller.gd" id="1_u5qb7"]
+[ext_resource type="Script" uid="uid://o4fncaluhq1" path="res://scenes/ui/start_button.gd" id="3_mkhoe"]
+[ext_resource type="Script" uid="uid://wmqtouu0twvb" path="res://scenes/ui/quit_button.gd" id="5_c4iww"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_q8qiq"]
+bg_color = Color(0.07, 0.06435333, 0.0623, 0.69411767)
+
+[sub_resource type="Theme" id="Theme_0xctl"]
+Panel/styles/panel = SubResource("StyleBoxFlat_q8qiq")
+
+[node name="MenuScreen" type="Control" unique_id=1090235877]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_u5qb7")
+
+[node name="Background" type="Control" parent="." unique_id=1562454139]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Background" unique_id=36705696]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_anq1i")
+
+[node name="ContentContainerContainer" type="Panel" parent="Background" unique_id=1238653791]
+custom_minimum_size = Vector2(650, 0)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = SubResource("Theme_0xctl")
+
+[node name="ContentContainer" type="VBoxContainer" parent="Background/ContentContainerContainer" unique_id=369294285]
+custom_minimum_size = Vector2(600, 648)
+layout_mode = 1
+anchors_preset = 13
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -300.0
+offset_right = 300.0
+grow_horizontal = 2
+grow_vertical = 2
+alignment = 1
+
+[node name="TitleContainer" type="MarginContainer" parent="Background/ContentContainerContainer/ContentContainer" unique_id=83454141]
+custom_minimum_size = Vector2(600, 200)
+layout_mode = 2
+
+[node name="TitleTexture" type="TextureRect" parent="Background/ContentContainerContainer/ContentContainer/TitleContainer" unique_id=2092315250]
+layout_mode = 2
+texture = ExtResource("1_py1kr")
+stretch_mode = 2
+
+[node name="Control" type="Control" parent="Background/ContentContainerContainer/ContentContainer" unique_id=3285132]
+custom_minimum_size = Vector2(0, 100)
+layout_mode = 2
+
+[node name="StartButton" type="Button" parent="Background/ContentContainerContainer/ContentContainer" unique_id=1959547010]
+layout_mode = 2
+text = "START"
+script = ExtResource("3_mkhoe")
+
+[node name="OptionsButton" type="Button" parent="Background/ContentContainerContainer/ContentContainer" unique_id=1478980048]
+layout_mode = 2
+text = "OPTIONS"
+
+[node name="QuitButton" type="Button" parent="Background/ContentContainerContainer/ContentContainer" unique_id=330109070]
+layout_mode = 2
+text = "QUIT"
+script = ExtResource("5_c4iww")

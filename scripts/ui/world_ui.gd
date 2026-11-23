@@ -17,6 +17,9 @@ var attack_button = $AttackButtonPanel/AttackButton
 @onready
 var deck_button = $"PlayerUIBottom/DeckContainer/Button"
 
+var fade_in: bool = false
+var fade_in_percentage: float = 0
+
 # TODO: Better way to propagate this than just passing it up?
 signal ui_attack_prepared(target_pos: Vector2i)
 
@@ -41,8 +44,17 @@ func _ready() -> void:
 	
 
 	
-func _process(_delta):
-	attack_button.disabled = !player.can_take_action
+func _process(delta):
+	if player != null:
+		attack_button.disabled = !player.can_take_action
+	
+	if fade_in and fade_in_percentage <= 1:
+		fade_in_percentage += delta / 3
+		$FadeRect.set_modulate(lerp($FadeRect.get_modulate(), Color(0.0, 0.0, 0.0, 0.0), fade_in_percentage))
+		print(fade_in_percentage)
+		if fade_in_percentage >= 1:
+			fade_in_percentage = 1
+			fade_in = false
 	
 func _on_ui_attack_prepared(target_pos: Vector2i):
 	ui_attack_prepared.emit(target_pos)
@@ -66,3 +78,6 @@ func _on_card_drawn():
 	if hand.get_child_count() < player.max_hand_size:
 		var drawn_card = player.deck.draw_one()
 		deck_button.draw_card(drawn_card)
+
+func trigger_fade_in():
+	fade_in = true
