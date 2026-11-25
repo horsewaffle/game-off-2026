@@ -11,10 +11,7 @@ script = ExtResource("1_10dcs")
 visible = false
 mesh = SubResource("PlaneMesh_hrkyq")
 
-[node name="SpotLight3D" type="SpotLight3D" parent="." unique_id=821788413]
-transform = Transform3D(1, 0, 0, 0, -0.047106393, 0.99888986, 0, -0.99888986, -0.047106393, 0, 4.771248, 7.957451)
-light_color = Color(1, 0.7118222, 0.49673498, 1)
-light_energy = 11.729
-shadow_enabled = true
-spot_range = 79.236
-spot_angle = 47.71
+[node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=949160461]
+transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.899869, 0)
+light_energy = 11.207
+area_size = Vector2(40, 40)
