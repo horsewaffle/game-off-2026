@@ -13,5 +13,6 @@ func build(grid: Array) -> void:
 					set_cell_item(
 						Vector3i(x - offset_x, 0, y - offset_y), 0)
 				"■":
+					# 16 is north, 0 east, 22 south, 10 west
 					set_cell_item(
-						Vector3i(x - offset_x, 0, y - offset_y), 1)
+						Vector3i(x - offset_x, 0, y - offset_y), 1,  22)
