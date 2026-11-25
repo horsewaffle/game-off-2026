@@ -49,5 +49,6 @@ libraries/ = SubResource("AnimationLibrary_pjcwr")
 transform = Transform3D(1, 0, -3.197442e-14, 0, 1, 0, 3.197442e-14, 0, 1, 0, 0.989, 0)
 light_color = Color(0.7233636, 0.48988986, 0.0060209646, 1)
 light_energy = 0.333
+shadow_enabled = true
 omni_range = 1.61
 omni_attenuation = 0.21

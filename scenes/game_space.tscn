@@ -13,5 +13,10 @@ mesh = SubResource("PlaneMesh_hrkyq")
 
 [node name="AreaLight3D" type="AreaLight3D" parent="." unique_id=949160461]
 transform = Transform3D(1, 0, 0, 0, -4.371139e-08, 1, 0, -1, -4.371139e-08, 0, 2.899869, 0)
-light_energy = 11.207
+light_color = Color(0.2606995, 0.09410348, 0.0126106655, 1)
+light_energy = 1.75
+shadow_enabled = true
+shadow_blur = 0.219
+area_attenuation = 5.375
+area_normalize_energy = false
 area_size = Vector2(40, 40)
