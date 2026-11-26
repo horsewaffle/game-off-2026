@@ -1,0 +1,51 @@
+[gd_scene format=3]
+
+[sub_resource type="StandardMaterial3D" id="Material_base"]
+albedo_color = Color(0.09, 0.24, 0.22, 1)
+
+[sub_resource type="StandardMaterial3D" id="Material_steps"]
+albedo_color = Color(0.45, 0.88, 0.69, 1)
+emission_enabled = true
+emission = Color(0.08, 0.22, 0.15, 1)
+
+[sub_resource type="BoxMesh" id="Mesh_base"]
+material = SubResource("Material_base")
+size = Vector3(0.96, 0.06, 0.96)
+
+[sub_resource type="BoxMesh" id="Mesh_step"]
+material = SubResource("Material_steps")
+size = Vector3(0.72, 0.08, 0.2)
+
+[node name="Stairs" type="Node3D"]
+
+[node name="Base" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.03, 0)
+mesh = SubResource("Mesh_base")
+
+[node name="Step1" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.1, 0.3)
+mesh = SubResource("Mesh_step")
+
+[node name="Step2" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.14, 0.1)
+scale = Vector3(1, 2, 1)
+mesh = SubResource("Mesh_step")
+
+[node name="Step3" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.18, -0.1)
+scale = Vector3(1, 3, 1)
+mesh = SubResource("Mesh_step")
+
+[node name="Step4" type="MeshInstance3D" parent="."]
+position = Vector3(0, 0.22, -0.3)
+scale = Vector3(1, 4, 1)
+mesh = SubResource("Mesh_step")
+
+[node name="Label" type="Label3D" parent="."]
+position = Vector3(0, 0.75, 0)
+billboard = 1
+modulate = Color(0.65, 1, 0.8, 1)
+text = "STAIRS"
+font_size = 32
+pixel_size = 0.006
+no_depth_test = true

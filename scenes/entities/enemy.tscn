@@ -1,0 +1,65 @@
+[gd_scene format=3 uid="uid://ddmjca6gc1ubb"]
+
+[ext_resource type="Script" uid="uid://kgnjrstpy2hr" path="res://scripts/enemies/enemy.gd" id="1_7p1mj"]
+[ext_resource type="Script" uid="uid://bdn4vsm6xhyes" path="res://scenes/health_bar.gd" id="2_md0e3"]
+
+[sub_resource type="Animation" id="Animation_bhjyr"]
+length = 0.001
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.5, 0)
+
+[sub_resource type="Animation" id="Animation_w5kve"]
+resource_name = "move"
+length = 0.3
+tracks/0/type = "position_3d"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = PackedFloat32Array(0, 1, 0, 0.5, 0, 0.15, 1, 0, 1, -0.5, 0.3, 1, 0, 0.5, -1)
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pjcwr"]
+_data = {
+&"RESET": SubResource("Animation_bhjyr"),
+&"move": SubResource("Animation_w5kve")
+}
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_10dcs"]
+albedo_color = Color(0.98914176, 0.5792684, 0.48325753, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_4ra3w"]
+material = SubResource("StandardMaterial3D_10dcs")
+
+[sub_resource type="PrismMesh" id="PrismMesh_hrkyq"]
+material = SubResource("StandardMaterial3D_10dcs")
+
+[node name="EnemyRoot" type="Node3D" unique_id=773698424 groups=["turn_listener"]]
+script = ExtResource("1_7p1mj")
+
+[node name="Enemy" type="Node3D" parent="." unique_id=1094724727]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.5, 0)
+
+[node name="HealthBar" type="ProgressBar" parent="Enemy" unique_id=535465418]
+offset_right = 200.0
+offset_bottom = 27.0
+show_percentage = false
+script = ExtResource("2_md0e3")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Enemy" unique_id=1054961851]
+root_motion_local = true
+libraries/ = SubResource("AnimationLibrary_pjcwr")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Enemy" unique_id=326111098]
+transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_4ra3w")
+skeleton = NodePath("")
+
+[node name="MeshInstance3D2" type="MeshInstance3D" parent="Enemy" unique_id=2053774994]
+transform = Transform3D(0.2, 0, 0, 0, -8.742278e-09, 0.2, 0, -0.2, -8.742278e-09, 0, 0.24993402, -0.28972012)
+mesh = SubResource("PrismMesh_hrkyq")

@@ -1,0 +1,106 @@
+class_name PlayerController
+extends Entity
+
+signal enemy_turn_triggered
+signal camera_pos_updated(target_pos: Vector2i)
+
+# Reference back to the Orchestrator for receiving signals
+var orchestrator: Orchestrator
+
+# Array of cards selected for use in attack
+var selected_cards: Array[Card]
+
+# Deck the player has currently.
+var deck: Deck
+
+var max_hand_size: int = 5
+
+var xp: int
+
+@onready
+var rotation_container: Node3D = $PlayerRotationContainer
+
+# Called by Orchestrator after instantiation, initialises player stats
+# and passes reference to Orchestrator
+func init_stats():
+	# (max health, attack, defence, mult, xp)
+	self.fightable = Fightable.new(200, 5, 10, 2.0, 0)
+	deck = Deck.new([])
+
+
+func _input(_event) -> void:
+	
+	# Logic for actions that are considered a turn - prevent user from getting
+	# more than one action per enemy turn by disabling input until all enemies
+	# are happy with their turn.
+	#
+	# ... this is just movement for now.
+	if (can_take_action):
+		# I wonder what would happen if you pressed two actions at the EXACT
+		# same time?
+		if Input.is_action_just_pressed("MOVE_UP"):
+			rotation_container.set_rotation(Vector3(0, 0, 0))
+			request_tile(Vector2i(0, -1))
+		elif Input.is_action_just_pressed("MOVE_DOWN"):
+			rotation_container.set_rotation(Vector3(0, PI, 0))
+			request_tile(Vector2i(0, 1))
+		elif Input.is_action_just_pressed("MOVE_LEFT"):
+			rotation_container.set_rotation(Vector3(0, PI / 2, 0))
+			request_tile(Vector2i(-1, 0))
+		elif Input.is_action_just_pressed("MOVE_RIGHT"):
+			rotation_container.set_rotation(Vector3(0, 3 * PI / 2, 0))
+			request_tile(Vector2i(1, 0))
+
+func request_tile(offset_pos: Vector2i):
+	
+	@warning_ignore("narrowing_conversion")
+	var target_pos = Vector2i(position.x, position.z) + offset_pos
+	turn_requested.emit(self, target_pos, "move")
+
+func handle_turn_response(result, pos, pos_entity: Entity = null):
+	match(result.result):
+		MoveResult.MoveEnum.INTERACT_AND_MOVE:
+			print("INTERACT_AND_MOVE")
+			interact(pos, pos_entity)
+			await move(pos)
+		MoveResult.MoveEnum.INTERACT:
+			interact(pos, pos_entity)
+		MoveResult.MoveEnum.FAIL:
+			pass
+			
+func move(target_pos: Vector2i):
+	
+	camera_pos_updated.emit(target_pos)
+	can_take_action = false
+
+	await super(target_pos)
+
+func interact(pos: Vector2i, pos_entity: Entity = null):
+	if pos_entity == null:
+		return
+		
+	if pos_entity.fightable != null:
+		attack(pos_entity)
+	else:
+		var interact_return = pos_entity.on_interact.call()
+
+func attack(entity: Entity):
+	if entity.fightable != null:
+		var final_attack = AttackCalculator.calculate(self.fightable.attack, selected_cards)
+		entity.fightable.receive_damage(final_attack)
+		print("I dealt ", final_attack, " to ", entity)
+
+func take_turn():
+	can_take_action = not fightable.death_check()
+	
+func end_turn():
+	can_take_action = false
+	await get_tree().create_timer(0.3).timeout
+	if not fightable.death_check():
+		enemy_turn_triggered.emit()
+
+func gain_xp(amount: int) -> void:
+	fightable.xp += amount
+	print(amount, "xp added! I now have ", fightable.xp, " xp!")
+
+	
