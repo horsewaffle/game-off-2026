@@ -61,8 +61,10 @@ func instantiate_floor():
 
 	instantiate_enemies(reachable_tiles)
 	is_changing_floor = false
+
 	floor_changed.emit(floor_number)
 	floor_readied.emit()
+
 	player.adjacent_fightables = get_adjacent_fightables(player)
 	player.take_turn()
 
@@ -70,8 +72,10 @@ func instantiate_floor():
 func place_player():
 	var spawn_room: Dictionary = rooms.pick_random()
 	var spawn_position = map_generator.room_centre(spawn_room) - grid_offset
+
 	player.position = Vector3(spawn_position.x, 0, spawn_position.y)
 	live_entities[player] = spawn_position
+
 	player.adjacent_fightables.clear()
 	player_camera.snap_to_player()
 
@@ -84,8 +88,10 @@ func get_reachable_tiles(start: Vector2i) -> Dictionary[Vector2i, int]:
 	while index < pending.size():
 		var position_2d = pending[index]
 		index += 1
+
 		for offset: Vector2i in neighbour_offsets:
 			var next_position = position_2d + offset
+
 			if not distances.has(next_position) and is_in_bounds(next_position):
 				distances[next_position] = distances[position_2d] + 1
 				pending.append(next_position)
@@ -95,6 +101,7 @@ func get_reachable_tiles(start: Vector2i) -> Dictionary[Vector2i, int]:
 
 func instantiate_stairs(reachable_tiles: Dictionary[Vector2i, int]):
 	var furthest_distance: int = -1
+
 	for position_2d: Vector2i in reachable_tiles:
 		if reachable_tiles[position_2d] > furthest_distance:
 			stairs_position = position_2d
@@ -103,6 +110,7 @@ func instantiate_stairs(reachable_tiles: Dictionary[Vector2i, int]):
 	var tile_position = stairs_position + grid_offset
 	tile_grid[tile_position.y][tile_position.x] = ">"
 	var stairs_instance = stairs_scene.instantiate()
+
 	current_floor.add_child(stairs_instance)
 	stairs_instance.position = Vector3(stairs_position.x, 0, stairs_position.y)
 
@@ -110,26 +118,34 @@ func instantiate_stairs(reachable_tiles: Dictionary[Vector2i, int]):
 func instantiate_enemies(reachable_tiles: Dictionary[Vector2i, int]):
 	var spawn_positions: Array[Vector2i] = []
 	var player_position = live_entities[player]
+
 	for position_2d: Vector2i in reachable_tiles:
 		var distance = (position_2d - player_position).abs()
+
 		if distance.x + distance.y < spawn_safe_distance:
 			continue
+
 		if position_2d == stairs_position or position_2d in live_entities.values():
 			continue
+
 		spawn_positions.append(position_2d)
 
 	spawn_positions.shuffle()
+
 	var enemy_count = mini(FloorDifficulty.get_enemy_count(floor_number), spawn_positions.size())
+
 	for index in range(enemy_count):
 		instantiate_enemy(spawn_positions[index])
 
 
 func instantiate_enemy(pos: Vector2i):
 	var new_enemy: Enemy = enemy_scene.instantiate()
+
 	new_enemy.floor_number = floor_number
 	new_enemy.position = Vector3(pos.x, 0, pos.y)
 	new_enemy.turn_requested.connect(_on_turn_requested)
 	new_enemy.xp_awarded.connect(player.gain_xp)
+
 	live_entities[new_enemy] = pos
 	current_floor.add_child(new_enemy)
 
@@ -138,6 +154,7 @@ func instantiate_player_controller():
 	player = player_scene.instantiate()
 	player.init_stats()
 	add_child(player)
+
 	player.turn_requested.connect(_on_turn_requested)
 	player.enemy_turn_triggered.connect(_on_enemy_turn_triggered)
 	player.fightable.dead.connect(_on_player_death)
@@ -177,8 +194,10 @@ func advance_floor():
 	player.can_take_action = false
 	floor_finished.emit()
 	live_entities.clear()
+
 	remove_child(current_floor)
 	current_floor.queue_free()
+
 	floor_number += 1
 	instantiate_floor()
 
@@ -191,13 +210,16 @@ func _on_enemy_turn_triggered():
 	for entity: Entity in get_tree().get_nodes_in_group("turn_listener"):
 		if run_ended:
 			break
+
 		if not live_entities.has(entity) or entity.fightable == null:
 			continue
+
 		entity.adjacent_fightables = get_adjacent_fightables(entity)
 		await entity.take_turn()
 		await get_tree().create_timer(0.1).timeout
 
 	enemy_turn_running = false
+
 	if not run_ended:
 		player.adjacent_fightables = get_adjacent_fightables(player)
 		player.take_turn()
@@ -247,8 +269,10 @@ func process_move(entity: Entity, target: Vector2i) -> MoveResult:
 
 	var current_position = live_entities[entity]
 	var distance = (target - current_position).abs()
+
 	if distance.x + distance.y != 1 or not is_in_bounds(target):
 		return MoveResult.new(MoveResult.MoveEnum.FAIL, current_position)
+		
 	if entity != player and target == stairs_position:
 		return MoveResult.new(MoveResult.MoveEnum.FAIL, current_position)
 
