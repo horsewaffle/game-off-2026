@@ -1,5 +1,5 @@
 class_name HandController
-extends Panel
+extends NinePatchRect
 
 var selected_cards_ui: Array[CardUI]
 

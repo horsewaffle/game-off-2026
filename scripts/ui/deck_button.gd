@@ -3,7 +3,7 @@ extends Button
 signal card_drawn
 
 @onready
-var hand: Panel = get_node("../../DrawnCardsContainer")
+var hand: NinePatchRect = get_node("../../DrawnCardsContainer")
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:

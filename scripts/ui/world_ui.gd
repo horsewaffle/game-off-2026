@@ -3,19 +3,19 @@ extends Control
 var player: PlayerController
 
 @onready
-var health_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/HealthBar"
+var health_bar: ProgressBar = find_child("HealthBar")
 
 @onready
-var xp_bar: ProgressBar = $"PlayerUIBottom/PlayerStatsContainer/StatsVBox/XPBar"
+var xp_bar: ProgressBar = find_child("XPBar")
 
 @onready
-var hand: HandController = $"PlayerUIBottom/DrawnCardsContainer"
+var hand: HandController = find_child("DrawnCardsContainer")
 
 @onready
-var attack_button = $AttackButtonPanel/AttackButton
+var attack_button = find_child("AttackButton")
 
 @onready
-var deck_button = $"PlayerUIBottom/DeckContainer/Button"
+var deck_button = find_child("DeckButton")
 
 # TODO: Better way to propagate this than just passing it up?
 signal ui_attack_prepared(target_pos: Vector2i)

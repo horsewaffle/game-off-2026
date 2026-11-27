@@ -4,7 +4,7 @@ extends Button
 const tile_highlight = preload("res://scenes/ui/tile_highlight.tscn")
 
 @onready
-var ui_root: Control = $"../.."
+var ui_root: Control = $".."
 
 @onready
 var player: PlayerController
